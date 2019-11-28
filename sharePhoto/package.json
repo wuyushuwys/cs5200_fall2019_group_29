@@ -1,0 +1,15 @@
+{
+  "name": "sharephoto",
+  "version": "1.0.0",
+  "description": "Photo Sharing App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "flickr-sdk": "^3.9.0",
+    "mongoose": "^5.7.12"
+  }
+}
