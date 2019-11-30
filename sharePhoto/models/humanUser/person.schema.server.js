@@ -5,7 +5,7 @@ const user = require('./user.schema.server')
 
 // Single table strategy
 module.exports = mongoose.Schema({
-    _id: Number,
+    // _id: Number,
     firstName: String,
     lastName: String,
     password: String,
