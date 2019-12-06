@@ -36,10 +36,9 @@ class PhotoSearchComponent extends React.Component {
             }))
     }
 
-    findPhotoByDescription = description => {
-        fetch(`https://api.unsplash.com/search/photos?query=${description}&client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
+    findPhotoByDescription = photoDescription =>
+        fetch(`https://api.unsplash.com/search/photos?query=${photoDescription}&client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
             .then(response => response.json())
-    }
 
     findPhotoById = Id =>
         fetch(`https://api.unsplash.com/photos/${Id}?client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
@@ -75,8 +74,10 @@ class PhotoSearchComponent extends React.Component {
                                 {
                                     this.state.photos.map(photo =>
                                         <li onClick={() => this.selectPhoto(photo)} key={photo.Id}>
-                                            <img height={50} src={photo.urls.small}/>
                                             {photo.alt_description}
+                                            <br/>
+                                            <img src={photo.urls.regular}/>
+
                                         </li>
                                     )
                                 }
