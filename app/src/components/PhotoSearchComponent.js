@@ -48,6 +48,9 @@ class PhotoSearchComponent extends React.Component {
         this.setState({
             photoDescription: event.target.value
         })
+        this.setState({
+            photoTags: event.target.value
+        })
     }
 
     selectPhoto = photo => {
@@ -61,29 +64,32 @@ class PhotoSearchComponent extends React.Component {
     render() {
         return(
             <div>
-                <table>
+                <table width="600">
                     <tbody>
                     <tr>
-                        <td valign="top">
-                            <h1>Movie Search Component</h1>
-                            <input
-                                onChange={this.updateForm}
-                                value={this.state.photoDescription}/>
-                            <button onClick={this.searchPhoto}>Search</button>
+                        <td valign="top" width="200">
+                            <h1 align={"center"}>Search</h1>
+                                <h2 align={"center"}>
+                                    <input onChange={this.updateForm} value={this.state.photoDescription}/>
+                                    <button align={"center"} onClick={this.searchPhoto}>Search</button>
+                                </h2>
                             <ol>
                                 {
                                     this.state.photos.map(photo =>
                                         <li onClick={() => this.selectPhoto(photo)} key={photo.Id}>
-                                            {photo.alt_description}
                                             <br/>
-                                            <img src={photo.urls.regular}/>
-
+                                            <h3>
+                                            <img src={photo.urls.small} width={200}/>
+                                            </h3>
+                                            <h4 bold>{"Description: "}</h4>
+                                            <em>{photo.alt_description}</em>
+                                            <br/>
                                         </li>
                                     )
                                 }
                             </ol>
                         </td>
-                        <td>
+                        <td valign={"top"} width={"400"}>
                             <PhotoDetails photo={this.state.selectedPhoto}/>
                         </td>
                         {/*<td>*/}
