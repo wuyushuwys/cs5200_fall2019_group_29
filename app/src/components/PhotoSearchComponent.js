@@ -8,7 +8,8 @@ class PhotoSearchComponent extends React.Component {
         this.state = {
             photos: [],
             photoDescription: 'Office',
-            selectedPhoto: {}
+            selectedPhoto: {},
+            selectedPhotoDescriptionUrls:{}
         }
     }
     // http://www.omdbapi.com/?s=batman&apikey=4a249f8d
@@ -55,7 +56,7 @@ class PhotoSearchComponent extends React.Component {
 
     selectPhoto = photo => {
         // console.log(photo)
-        this.findPhotoById(photo.Id)
+        return this.findPhotoById(photo.id)
             .then(photo => this.setState({
                 selectedPhoto: photo
             }))
@@ -81,7 +82,7 @@ class PhotoSearchComponent extends React.Component {
                                             <h3>
                                             <img src={photo.urls.small} width={200}/>
                                             </h3>
-                                            <h4 bold>{"Description: "}</h4>
+                                            <h4 bold={"true"}>{"Description: "}</h4>
                                             <em>{photo.alt_description}</em>
                                             <br/>
                                         </li>

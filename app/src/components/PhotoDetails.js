@@ -23,9 +23,11 @@ class PhotoDetails extends React.Component{
         return(
             <div>
                 <h1>Photo Details</h1>
-                <h2>{this.props.Title}</h2>
+                <h2>{this.props.photo.alt_description}</h2>
                 {/*<button onClick={() => this.likeMovie(this.props.movie)}>Like</button>*/}
-                {/*<img src={this.props.movie.Poster}/>*/}
+                <img src={this.props.photo.urls}/>
+                <p>{"Created By " + this.props.photo.user}</p>
+                <p>{"Created at " + this.props.photo.created_at}</p>
             </div>
         )
     }
