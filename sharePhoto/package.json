@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
     "flickr-sdk": "^3.9.0",
     "mongoose": "^5.7.12"
   }
