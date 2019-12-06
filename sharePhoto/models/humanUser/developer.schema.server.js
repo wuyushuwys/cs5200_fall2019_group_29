@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-module.exports = mogoose.Schema({
+module.exports = mongoose.Schema({
     // _id: Number,
     developerKey: String
 })
