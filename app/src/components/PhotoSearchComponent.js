@@ -12,21 +12,25 @@ class PhotoSearchComponent extends React.Component {
         }
     }
     // http://www.omdbapi.com/?s=batman&apikey=4a249f8d
-    // componentDidMount() {
-    //     fetch("http://localhost:4000/api/photos")
-    //         .then(response => response.json())
-    //         .then(photos => this.setState({
-    //             likedMovies: photos
-    //         }))
-    //
-    //     fetch("https://api.unsplash.com/search/photos?query=office&client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3")
-    //         .then(response => response.json())
-    //         .then(results => this.setState({
-    //             photos: results.results
-    //         }))
-    //
-    //
-    // }
+    componentDidMount() {
+        // fetch("http://localhost:4000/api/photos")
+        //     .then(response => response.json())
+        //     .then(photos => this.setState({
+        //         likedMovies: photos
+        //     }))
+
+        fetch(`https://api.unsplash.com/search/photos?query=office&client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
+            .then(response => response.json())
+            .then(results => this.setState({
+                photos: results.results
+            }))
+
+        fetch(`https://api.unsplash.com/photos/random?client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
+            .then(response => response.json())
+            .then(results => this.setState({
+                selectedPhoto: results
+            }))
+    }
 
     searchPhoto = () => {
         console.log('search photo: ' + this.state.photoDescription)
@@ -62,6 +66,7 @@ class PhotoSearchComponent extends React.Component {
     }
 
     render() {
+        console.log('init selected photo\n' + this.state.selectedPhoto)
         return(
             <div>
                 <table width="600">
@@ -79,7 +84,7 @@ class PhotoSearchComponent extends React.Component {
                                         <li onClick={() => this.selectPhoto(photo)} key={photo.id}>
                                             <br/>
                                             <h3>
-                                            <img src={photo.urls.small} width={200}/>
+                                            <img src={photo.urls.full} width={200}/>
                                             </h3>
                                             <h4 bold={"true"}>{"Description: "}</h4>
                                             <em>{photo.alt_description}</em>
