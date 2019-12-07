@@ -25,11 +25,11 @@ class PhotoSearchComponent extends React.Component {
                 photos: results.results
             }))
 
-        fetch(`https://api.unsplash.com/photos/random?client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
-            .then(response => response.json())
-            .then(results => this.setState({
-                selectedPhoto: results
-            }))
+        // fetch(`https://api.unsplash.com/photos/random?client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
+        //     .then(response => response.json())
+        //     .then(results => this.setState({
+        //         selectedPhoto: results
+        //     }))
     }
 
     searchPhoto = () => {
@@ -66,48 +66,85 @@ class PhotoSearchComponent extends React.Component {
     }
 
     render() {
-        console.log('init selected photo\n' + this.state.selectedPhoto)
-        return(
-            <div>
-                <table width="600">
-                    <tbody>
-                    <tr>
-                        <td valign="top" width="200">
-                            <h1 align={"center"}>Search</h1>
-                                <h2 align={"center"}>
-                                    <input onChange={this.updateForm} value={this.state.photoDescription}/>
-                                    <button align={"center"} onClick={this.searchPhoto}>Search</button>
-                                </h2>
-                            <ol>
-                                {
-                                    this.state.photos.map(photo =>
-                                        <li onClick={() => this.selectPhoto(photo)} key={photo.id}>
-                                            <br/>
-                                            <h3>
-                                            <img src={photo.urls.full} width={200}/>
-                                            </h3>
-                                            <h4 bold={"true"}>{"Description: "}</h4>
-                                            <em>{photo.alt_description}</em>
-                                            <br/>
-                                        </li>
-                                    )
-                                }
-                            </ol>
-                        </td>
-                        <td valign={"top"} width={"400"}>
-                            <PhotoDetails photo={this.state.selectedPhoto}/>
-                        </td>
-                        {/*<td>*/}
-                        {/*    <LikedMovies*/}
-                        {/*        likedMovies={this.state.likedMovies}/>*/}
-                        {/*</td>*/}
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-        )
-    }
+        console.log(this.state.selectedPhoto)
+        if(Object.keys(this.state.selectedPhoto).length == 0){
+                return (
+                    <div>
+                        <table width="600">
+                            <tbody>
+                            <tr>
+                                <td valign="top" width="200">
+                                    <h1 align={"center"}>Search</h1>
+                                    <h2 align={"center"}>
+                                        <input onChange={this.updateForm} value={this.state.photoDescription}/>
+                                        <button align={"center"} onClick={this.searchPhoto}>Search</button>
+                                    </h2>
+                                    <ol>
+                                        {
+                                            this.state.photos.map(photo =>
+                                                <li onClick={() => this.selectPhoto(photo)} key={photo.id}>
+                                                    <br/>
+                                                    <h3>
+                                                        <img src={photo.urls.full} width={200}/>
+                                                    </h3>
+                                                    <h4 bold={"true"}>{"Description: "}</h4>
+                                                    <em>{photo.alt_description}</em>
+                                                    <br/>
+                                                </li>
+                                            )
+                                        }
+                                    </ol>
+                                </td>
+                                <td valign={"top"} width={"400"}>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
+        else{
+            return(
+                <div>
+                    <table width="600">
+                        <tbody>
+                        <tr>
+                            <td valign="top" width="200">
+                                <h1 align={"center"}>Search</h1>
+                                    <h2 align={"center"}>
+                                        <input onChange={this.updateForm} value={this.state.photoDescription}/>
+                                        <button align={"center"} onClick={this.searchPhoto}>Search</button>
+                                    </h2>
+                                <ol>
+                                    {
+                                        this.state.photos.map(photo =>
+                                            <li onClick={() => this.selectPhoto(photo)} key={photo.id}>
+                                                <br/>
+                                                <h3>
+                                                <img src={photo.urls.full} width={200}/>
+                                                </h3>
+                                                <h4 bold={"true"}>{"Description: "}</h4>
+                                                <em>{photo.alt_description}</em>
+                                                <br/>
+                                            </li>
+                                        )
+                                    }
+                                </ol>
+                            </td>
+                            <td valign={"top"} width={"400"}>
+                                <PhotoDetails photo={this.state.selectedPhoto}/>
+                            </td>
+                            {/*<td>*/}
+                            {/*    <LikedMovies*/}
+                            {/*        likedMovies={this.state.likedMovies}/>*/}
+                            {/*</td>*/}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            )
+        }
+    };
 }
 
 export default PhotoSearchComponent;

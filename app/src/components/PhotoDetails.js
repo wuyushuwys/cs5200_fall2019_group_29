@@ -29,9 +29,9 @@ class PhotoDetails extends React.Component{
                 <h1>Photo Details</h1>
                 <h2>{this.props.photo.alt_description}</h2>
                 {/*<button onClick={() => this.likeMovie(this.props.movie)}>Like</button>*/}
-                <img src={this.props.photo.urls.full}/>
-                {/*<p>{"Created By " + JSON.stringify(this.user)}</p>*/}
-                <p>{"Created at " + this.props.photo.created_at}</p>
+                <img src={this.props.photo.urls.small}/>
+                <p><strong>Created by </strong>{this.props.photo.user.name}</p>
+                <p><strong>Created at </strong><em>{String(this.props.photo.created_at).substr(0,9)}</em></p>
             </div>
         );
     }
