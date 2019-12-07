@@ -9,7 +9,6 @@ class PhotoSearchComponent extends React.Component {
             photos: [],
             photoDescription: 'Office',
             selectedPhoto: {},
-            selectedPhotoDescriptionUrls:{}
         }
     }
     // http://www.omdbapi.com/?s=batman&apikey=4a249f8d
@@ -41,8 +40,8 @@ class PhotoSearchComponent extends React.Component {
         fetch(`https://api.unsplash.com/search/photos?query=${photoDescription}&client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
             .then(response => response.json())
 
-    findPhotoById = Id =>
-        fetch(`https://api.unsplash.com/photos/${Id}?client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
+    findPhotoById = id =>
+        fetch(`https://api.unsplash.com/photos/${id}?client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
             .then(response => response.json())
 
     updateForm = event => {
@@ -77,7 +76,7 @@ class PhotoSearchComponent extends React.Component {
                             <ol>
                                 {
                                     this.state.photos.map(photo =>
-                                        <li onClick={() => this.selectPhoto(photo)} key={photo.Id}>
+                                        <li onClick={() => this.selectPhoto(photo)} key={photo.id}>
                                             <br/>
                                             <h3>
                                             <img src={photo.urls.small} width={200}/>

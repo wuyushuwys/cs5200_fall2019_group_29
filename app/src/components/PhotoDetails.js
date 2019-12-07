@@ -1,6 +1,7 @@
 import React from 'react'
 
 class PhotoDetails extends React.Component{
+    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
     }
@@ -20,16 +21,19 @@ class PhotoDetails extends React.Component{
     // }
 
     render() {
-        return(
+        // const urls = this.getUrls;
+        // const user = this.getUser();
+        console.log(this.props.photo.urls)
+        return (
             <div>
                 <h1>Photo Details</h1>
                 <h2>{this.props.photo.alt_description}</h2>
                 {/*<button onClick={() => this.likeMovie(this.props.movie)}>Like</button>*/}
-                <img src={this.props.photo.urls}/>
-                <p>{"Created By " + this.props.photo.user}</p>
+                <img src={this.props.photo.urls.regular}/>
+                {/*<p>{"Created By " + JSON.stringify(this.user)}</p>*/}
                 <p>{"Created at " + this.props.photo.created_at}</p>
             </div>
-        )
+        );
     }
 }
 

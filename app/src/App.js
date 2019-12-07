@@ -4,22 +4,12 @@ import './App.css';
 import PhotoSearchComponent from "./components/PhotoSearchComponent";
 
 function App() {
-  let isUser = true
-  if(isUser){
-    return (
-        <div>
-          <h1 className='title' align="center">Photo Share App</h1>
-          <PhotoSearchComponent/>
-        </div>
+  return (
+      <React.Fragment>
+        <h1 className='title' align="center">Photo Share App</h1>
+        <PhotoSearchComponent/>
+      </React.Fragment>
 
-  );}
-  else
-    return (
-        <div>
-          <h1 className='title' align="center">Photo Share App</h1>
-        </div>
-    );
-
+  );
 }
-
 export default App;
