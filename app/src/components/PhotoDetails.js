@@ -1,10 +1,9 @@
 import React from 'react'
 
-class PhotoDetails extends React.Component{
-    // eslint-disable-next-line no-useless-constructor
-    constructor(props) {
-        super(props);
-    }
+class PhotoDetails extends React.Component {
+    // constructor(props) {
+    //     super(props);
+    // }
 
     // likeMovie = movie => {
     //     console.log(movie)
@@ -21,17 +20,27 @@ class PhotoDetails extends React.Component{
     // }
 
     render() {
-        // const urls = this.getUrls;
-        // const user = this.getUser();
-        console.log(this.props.photo.urls)
+        // console.log(this.props.photo.urls)
         return (
             <div>
-                <h1>Photo Details</h1>
-                <h2>{this.props.photo.alt_description}</h2>
-                {/*<button onClick={() => this.likeMovie(this.props.movie)}>Like</button>*/}
-                <img src={this.props.photo.urls.small}/>
-                <p><strong>Created by </strong>{this.props.photo.user.name}</p>
-                <p><strong>Created at </strong><em>{String(this.props.photo.created_at).substr(0,9)}</em></p>
+                <table border={"1"}>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <img src={this.props.photo.urls.regular} alt={this.props.photo.alt_description}
+                                 width={"400"}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p><strong>Description </strong>{this.props.photo.alt_description}</p>
+                            <p><strong>Created by </strong>{this.props.photo.user.name}</p>
+                            <p><strong>Created at </strong><em>{String(this.props.photo.created_at).substr(0, 10)}</em>
+                            </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         );
     }

@@ -1,24 +1,18 @@
 import React, {Component} from 'react';
-import { MDBInput } from 'mdbreact';
 
-
-class UserInterfaceComponent extends Component {
+class loginComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
             password: '',
             error: '',
-            comment: '',
         };
 
         this.handlePassChange = this.handlePassChange.bind(this);
         this.handleUserChange = this.handleUserChange.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.dismissError = this.dismissError.bind(this);
-
-        this.handleCommentChange = this.handleCommentChange.bind(this);
-        this.handleComment = this.handleComment.bind(this)
 
     }
 
@@ -40,8 +34,6 @@ class UserInterfaceComponent extends Component {
         return this.setState({error: ''});
     }
 
-
-
     handleUserChange(event) {
         this.setState({
             username: event.target.value,
@@ -54,27 +46,10 @@ class UserInterfaceComponent extends Component {
         });
     }
 
-    userLogin = () =>
+    userLogin = () => {
         console.log('username:' + this.state.username + " password:" + this.state.password)
 
-
-
-    handleCommentChange = event => {
-        if(this.state.username !== '' || this.state.password !== '') {
-            return this.setState({comment: event.target.value});
-        }
     }
-
-
-    handleComment(event) {
-        event.preventDefault();
-
-        if (!this.state.username || !this.state.password) {
-            return this.setState({error: 'Must Login'});
-        }
-        return this.setState({error: ''});
-    }
-    submitComment = () => console.log("Submit Comment: " + this.state.comment)
 
     render() {
         // NOTE: I use data-attributes for easier E2E testing
@@ -85,8 +60,8 @@ class UserInterfaceComponent extends Component {
                 <table border={"1"} width={"300"}>
                     <tbody>
                     <tr><th height={"100"}><h1 align={"center"}>User Interface</h1></th></tr>
-                    <tr>
-                        <td align={"center"}>
+                    <tr align={"left"}>
+                        <td>
                             <form onSubmit={this.handleLogin}>
                                 {
                                     this.state.error &&
@@ -96,30 +71,16 @@ class UserInterfaceComponent extends Component {
                                     </h3>
                                 }
                                 <fieldset>
-                                    <legend align={"center"}>Login</legend>
+                                    <legend>Login</legend>
                                     <label>Username</label>
                                     <input type="text" data-test="username" value={this.state.username}
                                            onChange={this.handleUserChange}/>
-                                           <br/>
                                     <label>Password</label>
                                     <input type="password" data-test="password" value={this.state.password}
                                            onChange={this.handlePassChange}/>
                                     <br/>
                                     <button onClick={this.userLogin}>Login</button>
                                 </fieldset>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form onSubmit={this.handleComment}>
-                            <fieldset>
-                                <legend>Comment</legend>
-                                <MDBInput  type='textarea' value={this.state.comment} rows={'5'} placeholder={'Wirte'}
-                                       onChange={this.handleCommentChange} style={{width: "300px"}}/>
-                                <br/>
-                                <button onClick={this.submitComment}>Submit</button>
-                            </fieldset>
                             </form>
                         </td>
                     </tr>
@@ -130,4 +91,4 @@ class UserInterfaceComponent extends Component {
     }
 }
 
-export default UserInterfaceComponent;
+export default loginComponent;

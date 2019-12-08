@@ -1,13 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import PhotoSearchComponent from "./components/PhotoSearchComponent";
+import MainComponent from "./components/MainComponent";
 
 function App() {
   return (
       <React.Fragment>
-        <h1 className='title' align="center">Photo Share App</h1>
-        <PhotoSearchComponent/>
+          <MainComponent/>
       </React.Fragment>
 
   );
