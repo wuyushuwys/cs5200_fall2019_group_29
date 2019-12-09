@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { MDBInput } from 'mdbreact';
+import {MDBInput} from 'mdbreact';
 
 
 class UserInterfaceComponent extends Component {
@@ -41,7 +41,6 @@ class UserInterfaceComponent extends Component {
     }
 
 
-
     handleUserChange(event) {
         this.setState({
             username: event.target.value,
@@ -58,12 +57,8 @@ class UserInterfaceComponent extends Component {
         console.log('username:' + this.state.username + " password:" + this.state.password)
 
 
-
-    handleCommentChange = event => {
-        if(this.state.username !== '' || this.state.password !== '') {
-            return this.setState({comment: event.target.value});
-        }
-    }
+    handleCommentChange = event =>
+        this.setState({comment: event.target.value})
 
 
     handleComment(event) {
@@ -74,59 +69,62 @@ class UserInterfaceComponent extends Component {
         }
         return this.setState({error: ''});
     }
+
     submitComment = () => console.log("Submit Comment: " + this.state.comment)
 
     render() {
         // NOTE: I use data-attributes for easier E2E testing
         // but you don't need to target those (any css-selector will work)
-
-        return (
-            <div className="Login">
-                <table border={"1"} width={"300"}>
-                    <tbody>
-                    <tr><th height={"100"}><h1 align={"center"}>User Interface</h1></th></tr>
-                    <tr>
-                        <td align={"center"}>
-                            <form onSubmit={this.handleLogin}>
-                                {
-                                    this.state.error &&
-                                    <h3 data-test="error" onClick={this.dismissError}>
-                                        <button onClick={this.dismissError}>✖</button>
-                                        {this.state.error}
-                                    </h3>
-                                }
+        if (this.props.user.type === "Guest") {
+            return (
+                <div>
+                    <h1>You are a guest!</h1>
+                </div>);
+        } else {
+            return (
+                <div className="Login">
+                    <table border={"1"} width={"300"}>
+                        <tbody>
+                        <tr>
+                            <th height={"100"}><h1 align={"center"}>User Interface</h1></th>
+                        </tr>
+                        <tr>
+                            <td align={"left"}>
                                 <fieldset>
-                                    <legend align={"center"}>Login</legend>
-                                    <label>Username</label>
-                                    <input type="text" data-test="username" value={this.state.username}
-                                           onChange={this.handleUserChange}/>
-                                           <br/>
-                                    <label>Password</label>
-                                    <input type="password" data-test="password" value={this.state.password}
-                                           onChange={this.handlePassChange}/>
-                                    <br/>
-                                    <button onClick={this.userLogin}>Login</button>
+                                    <legend align={"center"}>Current User Profile</legend>
+                                    <li>Username: {this.props.user.username}</li>
+                                    <li>User Type: {this.props.user.type}</li>
                                 </fieldset>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form onSubmit={this.handleComment}>
-                            <fieldset>
-                                <legend>Comment</legend>
-                                <MDBInput  type='textarea' value={this.state.comment} rows={'5'} placeholder={'Wirte'}
-                                       onChange={this.handleCommentChange} style={{width: "300px"}}/>
-                                <br/>
-                                <button onClick={this.submitComment}>Submit</button>
-                            </fieldset>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        );
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <form onSubmit={this.handleComment}>
+                                    <fieldset>
+                                        <legend>Comment</legend>
+                                        <MDBInput type='textarea' value={this.state.comment} rows={'5'}
+                                                  placeholder={'Write'}
+                                                  onChange={this.handleCommentChange} style={{width: "300px"}}/>
+                                        <br/>
+                                        <button onClick={this.submitComment}>Submit</button>
+                                    </fieldset>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr align={"left"}>
+                            <td>
+                                <fieldset>
+                                    <legend align={"center"}>Other User</legend>
+                                    <li>User1</li>
+                                    <li>User2</li>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            );
+        }
     }
 }
 
