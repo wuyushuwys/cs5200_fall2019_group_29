@@ -1,6 +1,10 @@
 import React from 'react'
 import PhotoSearchComponent from "./PhotoSearchComponent";
 import UserInterfaceComponent from "./UserInterfaceComponent";
+import UserManageInterfaceComponent from "./UserManageInterfaceComponent";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {Button} from 'react-bootstrap'
+
 
 class MainComponent extends React.Component {
     constructor(props) {
@@ -163,13 +167,26 @@ class MainComponent extends React.Component {
     }
 
     dismissState = () => this.setState({
+        tmp_username: '',
+        tmp_password: '',
+        tmp_adminKey: '',
+        registration: false,
         userProfile: {
             username: '',
             password: '',
             adminKey: '',
             type: '',
         },
-        registration: false,
+        regFirstName: '',
+        regLastName: '',
+        regUsername: '',
+        regPassword: '',
+        regGender: '',
+        regDataOfBirth: '',
+        regType: '',
+        regAdminKey: '',
+        regBio: '',
+        error: '',
     })
 
     userSignUp = () => {
@@ -180,7 +197,18 @@ class MainComponent extends React.Component {
     renderHomepage() {
         const user_credential = this.state.userProfile.username !== '' && this.state.userProfile.password !== ''
         const admin_credential = this.state.userProfile.username !== '' && this.state.userProfile.password !== '' && this.state.userProfile.adminKey !== ''
-        if (this.state.userProfile.type === "Guest" || user_credential || admin_credential) {
+        if (this.state.userProfile.type === "Guest") {
+            return (
+                <tr>
+                    <td>
+                        <PhotoSearchComponent/>
+                    </td>
+                    {/*<th valign={"top"}>*/}
+                    {/*    <UserInterfaceComponent user={this.state.userProfile}/>*/}
+                    {/*</th>*/}
+                </tr>
+            )
+        } else if (this.state.userProfile.type === "User" && user_credential) {
             return (
                 <tr>
                     <th>
@@ -189,7 +217,14 @@ class MainComponent extends React.Component {
                     <th valign={"top"}>
                         <UserInterfaceComponent user={this.state.userProfile}/>
                     </th>
-                    <th></th>
+                </tr>
+            )
+        } else if (this.state.userProfile.type === 'Administrator' && admin_credential) {
+            return (
+                <tr>
+                    <td height={100}>
+                        <UserManageInterfaceComponent/>
+                    </td>
                 </tr>
             )
         }
@@ -205,16 +240,16 @@ class MainComponent extends React.Component {
                             </tr>
                             <tr>
                                 <th>
-                                    <button onClick={this.setUserType}>Administrator</button>
+                                    <Button onClick={this.setUserType}>Administrator</Button>
                                 </th>
                                 <th>
-                                    <button onClick={this.setUserType}>User</button>
+                                    <Button onClick={this.setUserType}>User</Button>
                                 </th>
                                 <th>
-                                    <button onClick={this.setUserType}>Guest</button>
+                                    <Button onClick={this.setUserType}>Guest</Button>
                                 </th>
                                 <th>
-                                    <button onClick={this.registerUser}>Register</button>
+                                    <Button onClick={this.registerUser}>Register</Button>
                                 </th>
                             </tr>
                             </tbody>
@@ -230,7 +265,7 @@ class MainComponent extends React.Component {
                             {
                                 this.state.error &&
                                 <h3 data-test="error" onClick={this.dismissError}>
-                                    <button onClick={this.dismissError}>✖</button>
+                                    <Button onClick={this.dismissError}>✖</Button>
                                     {this.state.error}
                                 </h3>
                             }
@@ -242,8 +277,8 @@ class MainComponent extends React.Component {
                                 <label>Password:</label>
                                 <input value={this.state.tmp_password} onChange={this.handlePasswordChange}/>
                                 <br/>
-                                <button onClick={this.userLogin}>Login</button>
-                                <button onClick={this.dismissState}>Back</button>
+                                <Button onClick={this.userLogin}>Login</Button>
+                                <Button onClick={this.dismissState}>Back</Button>
                             </fieldset>
                         </form>
                     </td>
@@ -257,7 +292,7 @@ class MainComponent extends React.Component {
                             {
                                 this.state.error &&
                                 <h3 data-test="error" onClick={this.dismissError}>
-                                    <button onClick={this.dismissError}>✖</button>
+                                    <Button onClick={this.dismissError}>✖</Button>
                                     {this.state.error}
                                 </h3>
                             }
@@ -272,8 +307,8 @@ class MainComponent extends React.Component {
                                 <label>AdminKey:</label>
                                 <input value={this.state.adminKey} onChange={this.handleAdminKeyChange}/>
                                 <br/>
-                                <button onClick={this.adminLogin}>Login</button>
-                                <button onClick={this.dismissState}>Back</button>
+                                <Button onClick={this.adminLogin}>Login</Button>
+                                <Button onClick={this.dismissState}>Back</Button>
                             </fieldset>
                         </form>
                     </td>
@@ -287,7 +322,7 @@ class MainComponent extends React.Component {
                             {
                                 this.state.error &&
                                 <h3 data-test="error" onClick={this.dismissError}>
-                                    <button onClick={this.dismissError}>✖</button>
+                                    <Button onClick={this.dismissError}>✖</Button>
                                     {this.state.error}
                                 </h3>
                             }
@@ -317,8 +352,8 @@ class MainComponent extends React.Component {
                                 <label>Administrate Key: </label>
                                 <input value={this.state.regAdminKey} onChange={this.regAdminKeyChange}/>
                                 <br/>
-                                <button onClick={this.userSignUp}>Sign Up</button>
-                                <button onClick={this.dismissState}>Back</button>
+                                <Button onClick={this.userSignUp}>Sign Up</Button>
+                                <Button onClick={this.dismissState}>Back</Button>
                             </fieldset>
                         </form>
                     </td>
@@ -329,24 +364,29 @@ class MainComponent extends React.Component {
 
 
     render() {
+        console.log(this.state)
         return (
-            <div>
-                <table border={"1"} width={"1000"}>
-                    <thead>
-                    <tr>
-                        <td colSpan='3'>
-                            <h1 align="center">Photo Share App</h1>
-                            <p align={"center"}>
-                                <button onClick={this.dismissState}>Back to Home</button>
-                            </p>
-                        </td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {this.renderHomepage()}
-                    </tbody>
-                </table>
-            </div>
+            <Router>
+                <div>
+                    <table border={"1"} width={"1200"}>
+                        <thead>
+                        <tr>
+                            <td colSpan='3'>
+                                <h1 align="center">Photo Share App</h1>
+                                <p align={"center"}>
+                                    <Link to={"/"} onClick={this.dismissState}>
+                                        <Button onClick={this.dismissState}>Back to Home</Button>
+                                    </Link>
+                                </p>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {this.renderHomepage()}
+                        </tbody>
+                    </table>
+                </div>
+            </Router>
         )
     }
     ;
