@@ -11,6 +11,7 @@ class PhotoSearchComponent extends React.Component {
             photos: [],
             photoDescription: 'database',
             selectedPhoto: {},
+            selectedPhotoId: '',
 
             collections: [],
             collectionDescription: 'Boston',
@@ -87,9 +88,15 @@ class PhotoSearchComponent extends React.Component {
         this.setState({collectionDescription: event.target.value})
 
 
-    selectPhoto = photo =>
+    selectPhoto = photo =>{
         this.findPhotoById(photo.id)
-            .then(photo => this.setState({selectedPhoto: photo}))
+            .then(photo => this.setState({
+                selectedPhoto: photo,
+            }))
+        if(this.props.user.type !== 'Guest')
+            this.props.handleSelectedPhotoId(photo.id)
+    }
+
 
     selectCollection = collection =>
         this.findCollectionById(collection.id)
@@ -100,14 +107,14 @@ class PhotoSearchComponent extends React.Component {
         const photoDetail = Object.keys(this.state.selectedPhoto).length === 0 ? <></> :
             < PhotoDetails photo={this.state.selectedPhoto}/>;
         const collectionDetails = Object.keys(this.state.selectedCollection).length === 0 ? <></> :
-            <CollectionDetails collection={this.state.selectedCollection}/>;
+            <CollectionDetails collection={this.state.selectedCollection} selectPhoto={this.selectPhoto}/>;
 
         return (
             <div>
                 <table border={"1"}>
                     <tbody>
                     <tr>
-                        <th height={"100"} width={"200"}>
+                        <th height={"100"} width={"250"}>
                             <table align={'center'}>
                                 <tbody>
                                 <tr>
@@ -121,7 +128,7 @@ class PhotoSearchComponent extends React.Component {
                             </table>
                         </th>
                         <th height={"100"}><h1 align={"center"}>Details</h1></th>
-                        <th height={"100"}>
+                        <th height={"100"} width={'250'}>
                             <table align={'center'}>
                                 <tbody>
                                 <tr>
@@ -150,7 +157,7 @@ class PhotoSearchComponent extends React.Component {
                                             this.state.photos.map(photo =>
                                                 <li onClick={() => this.selectPhoto(photo)} key={photo.id}
                                                     style={{listStyleType: "none"}}>
-                                                    <img src={photo.urls.full} width="200" alt={photo.alt_description}/>
+                                                    <img src={photo.urls.full} width="250" alt={photo.alt_description}/>
                                                 </li>
                                             )
                                         }
@@ -188,9 +195,9 @@ class PhotoSearchComponent extends React.Component {
                                                     <tr onClick={() => this.selectCollection(collection)}
                                                         key={collection.id} style={{listStyleType: "none"}}>
                                                         <td align={"center"}>
-                                                            {collection.title}
+                                                            {collection.title}<br/>
                                                             <img src={collection.cover_photo.urls.small}
-                                                                 width="200" alt={collection.title}/>
+                                                                 width="250" alt={collection.title}/>
                                                         </td>
                                                     </tr>
                                                 )

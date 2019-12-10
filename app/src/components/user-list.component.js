@@ -33,6 +33,7 @@ export default class UserList extends Component {
         return(<div className="table-wrapper">
                 <Table striped bordered hover>
                     <thead>
+                    <tr><td colSpan={8}><h2>User Profiles</h2></td></tr>
                     <tr>
                         <th>FirstName</th>
                         <th>LastName</th>

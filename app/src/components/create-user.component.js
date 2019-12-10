@@ -14,7 +14,7 @@ export default class CreateUser extends Component {
         this.onChangeUserUsername = this.onChangeUserUsername.bind(this);
         this.onChangeUserGender = this.onChangeUserGender.bind(this);
         this.onChangeUserBirthday = this.onChangeUserBirthday.bind(this);
-        this.onChangeUserRole = this.onChangeUserRole.bind(this);
+        this.onChangePersonType = this.onChangePersonType.bind(this);
         this.onChangeUserPassword = this.onChangeUserPassword.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -25,7 +25,7 @@ export default class CreateUser extends Component {
             userName:'',
             gender:'',
             birthday:'',
-            userRole:'',
+            personType:'',
             password: ''
         }
     }
@@ -51,8 +51,8 @@ export default class CreateUser extends Component {
         this.setState({ birthday: e.target.value })
     }
 
-    onChangeUserRole(e) {
-        this.setState({ userRole: e.target.value })
+    onChangePersonType(e) {
+        this.setState({ personType: e.target.value })
     }
 
     onChangeUserPassword(e) {
@@ -68,7 +68,7 @@ export default class CreateUser extends Component {
             userName:this.state.userName,
             gender:this.state.gender,
             birthday:String(this.state.birthday).substr(0,10),
-            userRole:this.state.userRole,
+            personType:this.state.personType,
             // type:this.state.type,
             // birthday: moment(parseInt(this.state.birthday)).format('YYYY-MM-DD'),
             password: this.state.password,
@@ -84,7 +84,7 @@ export default class CreateUser extends Component {
             userName:'',
             gender:'',
             birthday:'',
-            userRole:'',
+            personType:'',
             // type:'',
             password: ''
         });
@@ -124,13 +124,13 @@ export default class CreateUser extends Component {
                     <Form.Control type="text" value= {this.state.birthday} onChange={this.onChangeUserBirthday} />
                 </Form.Group>
 
-                <Form.Group controlId="UserRole">
-                    <Form.Label> User Role</Form.Label>
-                    <Form.Control as="select" value= {this.state.userRole} onChange={this.onChangeUserRole} >
+                <Form.Group controlId="PersonType">
+                    <Form.Label> Type</Form.Label>
+                    <Form.Control as="select" value= {this.state.personType} onChange={this.onChangePersonType} >
                         <option></option>
-                        <option value="Editor">Editor</option>
-                        <option value="Reviewer">Reviewer</option>
-                        <option value="Uploader">Uploader</option>
+                        <option value="Administrator">Administrator</option>
+                        <option value="User">User</option>
+                        {/*<option value="Uploader">Uploader</option>*/}
                     </Form.Control>
                 </Form.Group>
 

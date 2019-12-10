@@ -12,7 +12,7 @@ export default class EditStudent extends Component {
         this.onChangeUserUsername = this.onChangeUserUsername.bind(this);
         this.onChangeUserGender = this.onChangeUserGender.bind(this);
         this.onChangeUserBirthday = this.onChangeUserBirthday.bind(this);
-        this.onChangeUserRole = this.onChangeUserRole.bind(this);
+        this.onChangePersonType = this.onChangePersonType.bind(this);
 
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -23,7 +23,7 @@ export default class EditStudent extends Component {
             userName:'',
             gender:'',
             birthday:'',
-            userRole:''
+            personType:''
         }
     }
 
@@ -37,7 +37,7 @@ export default class EditStudent extends Component {
                     userName: res.data.userName,
                     gender: res.data.gender,
                     birthday: res.data.birthday,
-                    userRole:res.data.userRole
+                    personType:res.data.personType
                     // type:res.data.type
 
                 });
@@ -71,8 +71,8 @@ export default class EditStudent extends Component {
         this.setState({ birthday: e.target.value })
     }
 
-    onChangeUserRole(e) {
-        this.setState({ userRole: e.target.value })
+    onChangePersonType(e) {
+        this.setState({ personType: e.target.value })
     }
 
 
@@ -88,7 +88,7 @@ export default class EditStudent extends Component {
             userName:this.state.userName,
             gender:this.state.gender,
             birthday:this.state.birthday,
-            userRole:this.state.userRole
+            personType:this.state.personType
             // type:this.state.type
         };
 
@@ -139,12 +139,14 @@ export default class EditStudent extends Component {
                     </Form.Group>
 
                     <Form.Group controlId="Role">
-                        <Form.Label> User Role</Form.Label>
-                        <Form.Control as="select" value= {this.state.userRole} onChange={this.onChangeUserRole} >
+                        <Form.Label> Type</Form.Label>
+                        <Form.Control as="select" value= {this.state.personType} onChange={this.onChangePersonType} >
                             <option></option>
-                            <option value="Editor">Editor</option>
-                            <option value="Reviewer">Reviewer</option>
-                            <option value="Uploader">Reviewer</option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="User">User</option>
+                            {/*<option value="Editor">Editor</option>*/}
+                            {/*<option value="Reviewer">Reviewer</option>*/}
+                            {/*<option value="Uploader">Reviewer</option>*/}
                         </Form.Control>
                     </Form.Group>
 

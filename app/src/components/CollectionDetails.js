@@ -28,7 +28,8 @@ class CollectionDetails extends React.Component {
                         <td>
                             {
                                 this.props.collection.preview_photos.map(photo =>
-                                <li key={photo.id}
+                                <li onClick={() => this.props.selectPhoto(photo)}
+                                    key={photo.id}
                                     style={{listStyleType: "none"}}>
                                     <img src={photo.urls.full} width="380" alt={photo.id}/>
                                 </li>

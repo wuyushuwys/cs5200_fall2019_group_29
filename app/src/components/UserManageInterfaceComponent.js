@@ -13,7 +13,6 @@ import CreateUser from "./create-user.component";
 import EditUser from "./edit-user.component";
 import UserList from "./user-list.component";
 
-// import SearchUser from "./components/search-user.component";
 
 class UserManageInterfaceComponent extends React.Component {
 
@@ -25,9 +24,7 @@ class UserManageInterfaceComponent extends React.Component {
                     <Navbar bg="dark" variant="dark">
                         <Container>
                             <Navbar.Brand>
-                                {/*<Link to={"/"} className="nav-link">*/}
                                     Users Management Interface
-                                {/*</Link>*/}
                             </Navbar.Brand>
 
                             <Nav className="justify-content-end">
@@ -36,20 +33,22 @@ class UserManageInterfaceComponent extends React.Component {
                                         Create User
                                     </Link>
                                 </Nav>
-
-                                {/*<Nav>*/}
-                                {/*  <Link to={"/search-user"} className="nav-link">*/}
-                                {/*    Search User*/}
-                                {/*  </Link>*/}
-                                {/*</Nav>*/}
-
                                 <Nav>
                                     <Link to={"/user-list"} className="nav-link">
                                         User List
                                     </Link>
                                 </Nav>
+                                <Nav>
+                                  <Link to={"/"} className="nav-link">
+                                    List Posted Photo
+                                  </Link>
+                                </Nav>
+                                <Nav>
+                                  <Link to={"/"} className="nav-link">
+                                    List Comments
+                                  </Link>
+                                </Nav>
                             </Nav>
-
                         </Container>
                     </Navbar>
                 </header>
@@ -59,9 +58,8 @@ class UserManageInterfaceComponent extends React.Component {
                         <Col md={12}>
                             <div className="wrapper">
                                 <Switch>
-                                    <Route exact path='/' component={CreateUser}/>
+                                    <Route exact path='/' component={UserList}/>
                                     <Route path="/create-user" component={CreateUser}/>
-                                    {/*<Route path="/search-user" component={SearchUser} />*/}
                                     <Route path="/edit-user/:id" component={EditUser}/>
                                     <Route path="/user-list" component={UserList}/>
                                 </Switch>

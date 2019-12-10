@@ -8,7 +8,10 @@ const findAllUsers = () =>
 const findUserByFirstName = firstName =>
     personModel.findOne({firstName: firstName})
 
+const createPerson = user => personModel.create(user)
+
 module.exports = {
     findAllUsers,
-    findUserByFirstName
+    findUserByFirstName,
+    createPerson,
 }

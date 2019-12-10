@@ -2,7 +2,7 @@ import React from 'react'
 import PhotoSearchComponent from "./PhotoSearchComponent";
 import UserInterfaceComponent from "./UserInterfaceComponent";
 import UserManageInterfaceComponent from "./UserManageInterfaceComponent";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Button} from 'react-bootstrap'
 
 
@@ -15,10 +15,10 @@ class MainComponent extends React.Component {
             tmp_adminKey: '',
             registration: false,
             userProfile: {
-                username: '',
-                password: '',
+                username: '123',
+                password: '123',
                 adminKey: '',
-                type: '',
+                type: 'User',
             },
             regFirstName: '',
             regLastName: '',
@@ -30,6 +30,7 @@ class MainComponent extends React.Component {
             regAdminKey: '',
             regBio: '',
             error: '',
+            selectedPhotoId: '',
         };
 
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -47,6 +48,7 @@ class MainComponent extends React.Component {
         this.regTypeChange = this.regTypeChange.bind(this);
         this.regAdminKeyChange = this.regAdminKeyChange.bind(this);
         this.regBioChange = this.regBioChange.bind(this);
+        this.handleSelectedPhotoId = this.handleSelectedPhotoId.bind(this);
     }
 
     regFirstNameChange = event =>
@@ -187,11 +189,16 @@ class MainComponent extends React.Component {
         regAdminKey: '',
         regBio: '',
         error: '',
+        selectedPhotoId: '',
     })
 
     userSignUp = () => {
         console.log(JSON.stringify(this.state))
     }
+
+    handleSelectedPhotoId = Id => this.setState({
+        selectedPhotoId: Id,
+    })
 
 
     renderHomepage() {
@@ -200,22 +207,26 @@ class MainComponent extends React.Component {
         if (this.state.userProfile.type === "Guest") {
             return (
                 <tr>
-                    <td>
-                        <PhotoSearchComponent/>
-                    </td>
-                    {/*<th valign={"top"}>*/}
-                    {/*    <UserInterfaceComponent user={this.state.userProfile}/>*/}
-                    {/*</th>*/}
+                    <th>
+                        <PhotoSearchComponent user={this.state.userProfile}/>
+                    </th>
+                    <th valign={'top'} >
+                        <h3 align={'center'}>Welcome Guest!</h3>
+                        <h4>If you want to comment others photo or post you own, please sign in!</h4>
+                    </th>
                 </tr>
+
             )
         } else if (this.state.userProfile.type === "User" && user_credential) {
             return (
                 <tr>
                     <th>
-                        <PhotoSearchComponent/>
+                        <PhotoSearchComponent handleSelectedPhotoId={this.handleSelectedPhotoId}
+                                              user={this.state.userProfile}/>
                     </th>
                     <th valign={"top"}>
-                        <UserInterfaceComponent user={this.state.userProfile}/>
+                        <UserInterfaceComponent user={this.state.userProfile}
+                                                selectedPhotoId={this.state.selectedPhotoId}/>
                     </th>
                 </tr>
             )
@@ -362,16 +373,14 @@ class MainComponent extends React.Component {
         }
     }
 
-
     render() {
-        console.log(this.state)
         return (
             <Router>
                 <div>
                     <table border={"1"} width={"1200"}>
                         <thead>
                         <tr>
-                            <td colSpan='3'>
+                            <td colSpan='100'>
                                 <h1 align="center">Photo Share App</h1>
                                 <p align={"center"}>
                                     <Link to={"/"} onClick={this.dismissState}>
