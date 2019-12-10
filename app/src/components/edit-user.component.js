@@ -13,6 +13,8 @@ export default class EditStudent extends Component {
         this.onChangeUserGender = this.onChangeUserGender.bind(this);
         this.onChangeUserBirthday = this.onChangeUserBirthday.bind(this);
         this.onChangePersonType = this.onChangePersonType.bind(this);
+        // this.onChangeAdminKey = this.onChangeAdminKey.bind(this);
+
 
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -23,7 +25,8 @@ export default class EditStudent extends Component {
             userName:'',
             gender:'',
             birthday:'',
-            personType:''
+            personType:'',
+            adminKey: '',
         }
     }
 
@@ -37,7 +40,8 @@ export default class EditStudent extends Component {
                     userName: res.data.userName,
                     gender: res.data.gender,
                     birthday: res.data.birthday,
-                    personType:res.data.personType
+                    personType:res.data.personType,
+                    adminKey:res.data.adminKey
                     // type:res.data.type
 
                 });
@@ -74,7 +78,10 @@ export default class EditStudent extends Component {
     onChangePersonType(e) {
         this.setState({ personType: e.target.value })
     }
-
+    //
+    // onChangeAdminKey(e) {
+    //     this.setState({ adminKey: e.target.value })
+    // }
 
 
 
@@ -88,7 +95,9 @@ export default class EditStudent extends Component {
             userName:this.state.userName,
             gender:this.state.gender,
             birthday:this.state.birthday,
-            personType:this.state.personType
+            personType:this.state.personType,
+            adminKey: this.state.adminKey,
+
             // type:this.state.type
         };
 
@@ -138,7 +147,7 @@ export default class EditStudent extends Component {
                         <Form.Control type="text" value={this.state.birthday} onChange={this.onChangeUserBirthday} />
                     </Form.Group>
 
-                    <Form.Group controlId="Role">
+                    <Form.Group controlId="PersonType">
                         <Form.Label> Type</Form.Label>
                         <Form.Control as="select" value= {this.state.personType} onChange={this.onChangePersonType} >
                             <option></option>
@@ -150,13 +159,18 @@ export default class EditStudent extends Component {
                         </Form.Control>
                     </Form.Group>
 
+                    {/*<Form.Group controlId="AdminKey">*/}
+                    {/*    <Form.Label> Administration Key</Form.Label>*/}
+                    {/*    <Form.Control type="text" value= {this.state.adminKey} onChange={this.onChangeAdminKey} />*/}
+                    {/*</Form.Group>*/}
+
                     <Form.Group controlId="Password">
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="text" value={this.state.password} onChange={this.onChangeUserPassword} />
                     </Form.Group>
 
                     <Button variant="danger" size="lg" block="block" type="submit">
-                        Update Student
+                        Update User
                     </Button>
                 </Form>
             </div>

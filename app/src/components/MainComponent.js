@@ -17,8 +17,8 @@ class MainComponent extends React.Component {
             userProfile: {
                 username: '123',
                 password: '123',
-                adminKey: '',
-                type: 'User',
+                adminKey: '123',
+                type: 'Administrator',
             },
             regFirstName: '',
             regLastName: '',

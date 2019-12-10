@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import UserTableRow from './UserTableRow';
@@ -11,6 +11,7 @@ export default class UserList extends Component {
             users: []
         };
     }
+
     componentDidMount() {
         axios.get('http://localhost:4000/users/')
             .then(res => {
@@ -25,15 +26,17 @@ export default class UserList extends Component {
 
     DataTable() {
         return this.state.users.map((res, i) => {
-            return <UserTableRow obj={res} key={i} />;
+            return <UserTableRow obj={res} key={i}/>;
         });
     }
 
     render() {
-        return(<div className="table-wrapper">
+        return (<div className="table-wrapper">
                 <Table striped bordered hover>
                     <thead>
-                    <tr><td colSpan={8}><h2>User Profiles</h2></td></tr>
+                    <tr>
+                        <td colSpan={100}><h2>User Profiles</h2></td>
+                    </tr>
                     <tr>
                         <th>FirstName</th>
                         <th>LastName</th>
@@ -41,6 +44,7 @@ export default class UserList extends Component {
                         <th>Gender</th>
                         <th>Birthday</th>
                         <th>UserType</th>
+                        <th>Admin Key</th>
                         <th>Password</th>
                         <th>Action</th>
                     </tr>

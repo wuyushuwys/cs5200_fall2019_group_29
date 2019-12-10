@@ -10,7 +10,7 @@ export default class UserTableRow extends Component {
     }
 
     deleteUser() {
-        axios.delete('http://localhost:4000/users/delete/' + this.props.obj._id)
+        axios.delete('http://localhost:4000/users/delete-user/' + this.props.obj._id)
             .then((res) => {
                 console.log('User successfully deleted!')
             }).catch((error) => {
@@ -27,6 +27,7 @@ export default class UserTableRow extends Component {
                 <td>{this.props.obj.gender}</td>
                 <td>{String(this.props.obj.birthday).substr(0, 10)}</td>
                 <td>{this.props.obj.personType}</td>
+                <td>{this.props.obj.adminKey}</td>
                 <td>{this.props.obj.password}</td>
                 <td>
                     <Link className="edit-link" to={"/edit-user/" + this.props.obj._id}>Edit</Link>

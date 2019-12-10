@@ -15,6 +15,7 @@ export default class CreateUser extends Component {
         this.onChangeUserGender = this.onChangeUserGender.bind(this);
         this.onChangeUserBirthday = this.onChangeUserBirthday.bind(this);
         this.onChangePersonType = this.onChangePersonType.bind(this);
+        this.onChangeAdminKey = this.onChangeAdminKey.bind(this);
         this.onChangeUserPassword = this.onChangeUserPassword.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
@@ -26,7 +27,8 @@ export default class CreateUser extends Component {
             gender:'',
             birthday:'',
             personType:'',
-            password: ''
+            adminKey: '',
+            password: '',
         }
     }
 
@@ -55,9 +57,14 @@ export default class CreateUser extends Component {
         this.setState({ personType: e.target.value })
     }
 
+    onChangeAdminKey(e) {
+        this.setState({ adminKey: e.target.value })
+    }
+
     onChangeUserPassword(e) {
         this.setState({ password: e.target.value })
     }
+
 
     onSubmit(e) {
         e.preventDefault()
@@ -71,6 +78,7 @@ export default class CreateUser extends Component {
             personType:this.state.personType,
             // type:this.state.type,
             // birthday: moment(parseInt(this.state.birthday)).format('YYYY-MM-DD'),
+            adminKey: this.state.adminKey,
             password: this.state.password,
 
         };
@@ -85,6 +93,7 @@ export default class CreateUser extends Component {
             gender:'',
             birthday:'',
             personType:'',
+            adminKey: '',
             // type:'',
             password: ''
         });
@@ -132,6 +141,11 @@ export default class CreateUser extends Component {
                         <option value="User">User</option>
                         {/*<option value="Uploader">Uploader</option>*/}
                     </Form.Control>
+                </Form.Group>
+
+                <Form.Group controlId="AdminKey">
+                    <Form.Label> Administration Key</Form.Label>
+                    <Form.Control type="text" value= {this.state.adminKey} onChange={this.onChangeAdminKey} />
                 </Form.Group>
 
                 <Form.Group controlId="Password">
