@@ -29,12 +29,12 @@ class UserManageInterfaceComponent extends React.Component {
 
                             <Nav className="justify-content-end">
                                 <Nav>
-                                    <Link to={"/create-user"} className="nav-link">
+                                    <Link to={"/user/create"} className="nav-link">
                                         Create User
                                     </Link>
                                 </Nav>
                                 <Nav>
-                                    <Link to={"/user-list"} className="nav-link">
+                                    <Link to={"/user"} className="nav-link">
                                         User List
                                     </Link>
                                 </Nav>
@@ -59,9 +59,9 @@ class UserManageInterfaceComponent extends React.Component {
                             <div className="wrapper">
                                 <Switch>
                                     <Route exact path='/' component={UserList}/>
-                                    <Route path="/create-user" component={CreateUser}/>
-                                    <Route path="/edit-user/:id" component={EditUser}/>
-                                    <Route path="/user-list" component={UserList}/>
+                                    <Route path="/user/create" component={CreateUser}/>
+                                    <Route path="/user/edit/:id" component={EditUser}/>
+                                    <Route path="/user" component={UserList}/>
                                 </Switch>
                             </div>
                         </Col>

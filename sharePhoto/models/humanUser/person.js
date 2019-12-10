@@ -9,7 +9,7 @@ let personSchema  = mongoose.Schema({
     firstName: String,
     lastName: String,
     password: String,
-    userName: String,
+    username: String,
     gender: {
         type: String,
         enum:['Male', 'Female', 'Others']
@@ -20,7 +20,7 @@ let personSchema  = mongoose.Schema({
         enum: ['User', 'Administrator']
     },
     adminKey: String,
-    bio: String,
+    // bio: String,
     userRole:{
         type: String,
         enum: ['Editor','Reviewer','Uploader']

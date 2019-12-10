@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
@@ -23,99 +23,102 @@ export default class CreateUser extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            userName:'',
-            gender:'',
-            birthday:'',
-            personType:'',
+            username: '',
+            gender: '',
+            birthday: '',
+            personType: '',
             adminKey: '',
             password: '',
         }
     }
 
     onChangeUserFirstName(e) {
-        this.setState({ firstName: e.target.value })
+        this.setState({firstName: e.target.value})
     }
 
     onChangeUserLastName(e) {
-        this.setState({ lastName: e.target.value })
+        this.setState({lastName: e.target.value})
     }
 
 
     onChangeUserUsername(e) {
-        this.setState({ userName: e.target.value })
+        this.setState({username: e.target.value})
     }
 
     onChangeUserGender(e) {
-        this.setState({ gender: e.target.value })
+        this.setState({gender: e.target.value})
     }
 
     onChangeUserBirthday(e) {
-        this.setState({ birthday: e.target.value })
+        this.setState({birthday: e.target.value})
     }
 
     onChangePersonType(e) {
-        this.setState({ personType: e.target.value })
+        this.setState({personType: e.target.value})
     }
 
     onChangeAdminKey(e) {
-        this.setState({ adminKey: e.target.value })
+        this.setState({adminKey: e.target.value})
     }
 
     onChangeUserPassword(e) {
-        this.setState({ password: e.target.value })
+        this.setState({password: e.target.value})
     }
 
 
-    onSubmit(e) {
+    onSubmit = async e => {
         e.preventDefault()
 
         const userObject = {
             firstName: this.state.firstName,
             lastName: this.state.lastName,
-            userName:this.state.userName,
-            gender:this.state.gender,
-            birthday:String(this.state.birthday).substr(0,10),
-            personType:this.state.personType,
-            // type:this.state.type,
-            // birthday: moment(parseInt(this.state.birthday)).format('YYYY-MM-DD'),
+            username: this.state.username,
+            gender: this.state.gender,
+            birthday: String(this.state.birthday).substr(0, 10),
+            personType: this.state.personType,
             adminKey: this.state.adminKey,
             password: this.state.password,
 
         };
 
-        axios.post('http://localhost:4000/users/create-user', userObject)
-            .then(res => console.log(res.data));
+        axios.post('http://localhost:4000/users/create', userObject)
+            .then(res => console.log(res.data))
+
 
         this.setState({
             firstName: '',
             lastName: '',
-            userName:'',
-            gender:'',
-            birthday:'',
-            personType:'',
+            username: '',
+            gender: '',
+            birthday: '',
+            personType: '',
             adminKey: '',
             // type:'',
             password: ''
         });
+        // Redirect to Student List
+        await this.props.history.push('/')
+        // await window.location.reload(false)
     }
+
 
     render() {
         return (<div className="form-wrapper">
             <Form onSubmit={this.onSubmit}>
                 <Form.Group controlId="FirstName">
                     <Form.Label>FirstName</Form.Label>
-                    <Form.Control type="text" value={this.state.firstName} onChange={this.onChangeUserFirstName} />
+                    <Form.Control type="text" value={this.state.firstName} onChange={this.onChangeUserFirstName}/>
                 </Form.Group>
 
                 <Form.Group controlId="LastName">
                     <Form.Label>LastName</Form.Label>
-                    <Form.Control type="text" value={this.state.lastName} onChange={this.onChangeUserLastName} />
+                    <Form.Control type="text" value={this.state.lastName} onChange={this.onChangeUserLastName}/>
                 </Form.Group>
 
 
                 <Form.Group controlId="UserName">
                     <Form.Label> UserName</Form.Label>
-                    <Form.Control type="text" value={this.state.userName} onChange={this.onChangeUserUsername} />
+                    <Form.Control type="text" value={this.state.username} onChange={this.onChangeUserUsername}/>
                 </Form.Group>
 
                 <Form.Group controlId="Gender">
@@ -130,12 +133,12 @@ export default class CreateUser extends Component {
 
                 <Form.Group controlId="Birthday">
                     <Form.Label> Birthday</Form.Label>
-                    <Form.Control type="text" value= {this.state.birthday} onChange={this.onChangeUserBirthday} />
+                    <Form.Control type="text" value={this.state.birthday} onChange={this.onChangeUserBirthday}/>
                 </Form.Group>
 
                 <Form.Group controlId="PersonType">
                     <Form.Label> Type</Form.Label>
-                    <Form.Control as="select" value= {this.state.personType} onChange={this.onChangePersonType} >
+                    <Form.Control as="select" value={this.state.personType} onChange={this.onChangePersonType}>
                         <option></option>
                         <option value="Administrator">Administrator</option>
                         <option value="User">User</option>
@@ -145,12 +148,12 @@ export default class CreateUser extends Component {
 
                 <Form.Group controlId="AdminKey">
                     <Form.Label> Administration Key</Form.Label>
-                    <Form.Control type="text" value= {this.state.adminKey} onChange={this.onChangeAdminKey} />
+                    <Form.Control type="text" value={this.state.adminKey} onChange={this.onChangeAdminKey}/>
                 </Form.Group>
 
                 <Form.Group controlId="Password">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="text" value={this.state.password} onChange={this.onChangeUserPassword} />
+                    <Form.Control type="text" value={this.state.password} onChange={this.onChangeUserPassword}/>
                 </Form.Group>
 
                 <Button variant="danger" size="lg" block="block" type="submit">

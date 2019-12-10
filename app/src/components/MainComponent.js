@@ -4,6 +4,8 @@ import UserInterfaceComponent from "./UserInterfaceComponent";
 import UserManageInterfaceComponent from "./UserManageInterfaceComponent";
 import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Button} from 'react-bootstrap'
+import axios from "axios";
+import Form from 'react-bootstrap/Form'
 
 
 class MainComponent extends React.Component {
@@ -15,10 +17,10 @@ class MainComponent extends React.Component {
             tmp_adminKey: '',
             registration: false,
             userProfile: {
-                username: '123',
-                password: '123',
-                adminKey: '123',
-                type: 'Administrator',
+                username: '',
+                password: '',
+                adminKey: '',
+                type: '',
             },
             regFirstName: '',
             regLastName: '',
@@ -29,8 +31,11 @@ class MainComponent extends React.Component {
             regType: '',
             regAdminKey: '',
             regBio: '',
+            regUserType: '',
             error: '',
             selectedPhotoId: '',
+            getUser: {},
+            loginPrompt: false,
         };
 
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -48,6 +53,8 @@ class MainComponent extends React.Component {
         this.regTypeChange = this.regTypeChange.bind(this);
         this.regAdminKeyChange = this.regAdminKeyChange.bind(this);
         this.regBioChange = this.regBioChange.bind(this);
+        this.regUserTypeChange = this.regUserTypeChange.bind(this);
+
         this.handleSelectedPhotoId = this.handleSelectedPhotoId.bind(this);
     }
 
@@ -95,6 +102,10 @@ class MainComponent extends React.Component {
         this.setState({
             regBio: event.target.value,
         })
+    regUserTypeChange = event =>
+        this.setState({
+            regUserType: event.target.value,
+        })
 
     dismissError() {
         this.setState({error: ''});
@@ -133,22 +144,61 @@ class MainComponent extends React.Component {
         });
     }
 
-    userLogin = () => this.setState({
-        userProfile: {
-            username: this.state.tmp_username,
-            password: this.state.tmp_password,
-            type: this.state.userProfile.type,
-        }
-    })
+    userLogin = async (e) => {
+        e.preventDefault()
+        await this.setState({
+            userProfile: {
+                username: this.state.tmp_username,
+                password: this.state.tmp_password,
+                type: this.state.userProfile.type,
+            }
+        })
+        await axios.get(`http://localhost:4000/users/${this.state.userProfile.username}/${this.state.userProfile.password}`)
+            .then(res => {
+                this.setState({
+                    getUser: res.data
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        if (await this.state.getUser.length === 1) {
+            return this.setState({
+                loginPrompt: true,
+            })
+        } else
+            return this.dismissState()
+    }
 
-    adminLogin = () => this.setState({
-        userProfile: {
-            username: this.state.tmp_username,
-            password: this.state.tmp_password,
-            type: this.state.userProfile.type,
-            adminKey: this.state.tmp_adminKey,
-        }
-    })
+
+    adminLogin = async () => {
+        await this.setState({
+            userProfile: {
+                username: this.state.tmp_username,
+                password: this.state.tmp_password,
+                type: this.state.userProfile.type,
+                adminKey: this.state.tmp_adminKey,
+            },
+        })
+        await axios.get(`http://localhost:4000/users/${this.state.userProfile.username}/${this.state.userProfile.password}/${this.state.userProfile.adminKey}`)
+            .then(res => {
+                this.setState({
+                    getUser: res.data
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        if (await this.state.getUser.length === 1) {
+            console.log(this.state.getUser[0])
+            if (this.state.getUser[0].personType === 'Administrator')
+                return this.setState({
+                    loginPrompt: true,
+                })
+        } else
+            return this.dismissState()
+    }
+
 
     setUserType = event => {
         const type = event.target.innerHTML
@@ -169,6 +219,7 @@ class MainComponent extends React.Component {
     }
 
     dismissState = () => this.setState({
+        getUser: {},
         tmp_username: '',
         tmp_password: '',
         tmp_adminKey: '',
@@ -190,10 +241,26 @@ class MainComponent extends React.Component {
         regBio: '',
         error: '',
         selectedPhotoId: '',
+        loginPrompt: false,
     })
 
-    userSignUp = () => {
-        console.log(JSON.stringify(this.state))
+    userSignUp = async (e) => {
+        e.preventDefault()
+        const userObject = {
+            firstName: this.state.regFirstName,
+            lastName: this.state.regLastName,
+            username: this.state.regUsername,
+            gender: this.state.regGender,
+            birthday: this.state.regDataOfBirth,
+            personType: this.state.regUserType,
+            adminKey: this.state.adminKey,
+            password: this.state.regPassword,
+        };
+
+        await axios.post('http://localhost:4000/users/create', userObject)
+            .then(res => console.log(res.data))
+        await this.dismissState()
+
     }
 
     handleSelectedPhotoId = Id => this.setState({
@@ -202,22 +269,22 @@ class MainComponent extends React.Component {
 
 
     renderHomepage() {
-        const user_credential = this.state.userProfile.username !== '' && this.state.userProfile.password !== ''
-        const admin_credential = this.state.userProfile.username !== '' && this.state.userProfile.password !== '' && this.state.userProfile.adminKey !== ''
+        // const user_credential = this.state.userProfile.username !== '' && this.state.userProfile.password !== ''
+        // const admin_credential = this.state.userProfile.username !== '' && this.state.userProfile.password !== '' && this.state.userProfile.adminKey !== ''
         if (this.state.userProfile.type === "Guest") {
             return (
                 <tr>
                     <th>
                         <PhotoSearchComponent user={this.state.userProfile}/>
                     </th>
-                    <th valign={'top'} >
+                    <th valign={'top'}>
                         <h3 align={'center'}>Welcome Guest!</h3>
                         <h4>If you want to comment others photo or post you own, please sign in!</h4>
                     </th>
                 </tr>
 
             )
-        } else if (this.state.userProfile.type === "User" && user_credential) {
+        } else if (this.state.userProfile.type === "User" && this.state.loginPrompt) {
             return (
                 <tr>
                     <th>
@@ -230,7 +297,7 @@ class MainComponent extends React.Component {
                     </th>
                 </tr>
             )
-        } else if (this.state.userProfile.type === 'Administrator' && admin_credential) {
+        } else if (this.state.userProfile.type === 'Administrator' && this.state.loginPrompt) {
             return (
                 <tr>
                     <td height={100}>
@@ -329,44 +396,65 @@ class MainComponent extends React.Component {
             return (
                 <tr>
                     <td align={"center"}>
-                        <form>
-                            {
-                                this.state.error &&
-                                <h3 data-test="error" onClick={this.dismissError}>
-                                    <Button onClick={this.dismissError}>✖</Button>
-                                    {this.state.error}
-                                </h3>
-                            }
-                            <fieldset>
-                                <legend align={"center"}>Login</legend>
-                                <label>Username: </label>
-                                <input value={this.state.regUsername} onChange={this.regUsernameChange}/>
-                                <br/>
-                                <label>Password: </label>
-                                <input value={this.state.regPassword} onChange={this.regPasswordChange}/>
-                                <br/>
-                                <label>First Name: </label>
-                                <input value={this.state.regFirstName} onChange={this.regFirstNameChange}/>
-                                <br/>
-                                <label>Last Name: </label>
-                                <input value={this.state.regLastName} onChange={this.regLastNameChange}/>
-                                <br/>
-                                <label>Gender: </label>
-                                <input value={this.state.regGender} onChange={this.regGenderChange}/>
-                                <br/>
-                                <label>Date Of Birth: </label>
-                                <input value={this.state.regDataOfBirth} onChange={this.regDataOfBirthChange}/>
-                                <br/>
-                                <label>Bio: </label>
-                                <input value={this.state.regBio} onChange={this.regBioChange}/>
-                                <br/>
-                                <label>Administrate Key: </label>
-                                <input value={this.state.regAdminKey} onChange={this.regAdminKeyChange}/>
-                                <br/>
-                                <Button onClick={this.userSignUp}>Sign Up</Button>
-                                <Button onClick={this.dismissState}>Back</Button>
-                            </fieldset>
-                        </form>
+                        <table width={300}>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <Form>
+                                        {/*{*/}
+                                        {/*    this.state.error &&*/}
+                                        {/*    <h3 data-test="error" onClick={this.dismissError}>*/}
+                                        {/*        <Button onClick={this.dismissError}>✖</Button>*/}
+                                        {/*        {this.state.error}*/}
+                                        {/*    </h3>*/}
+                                        {/*}*/}
+
+                                        <fieldset>
+                                            <legend align={"center"}>Sign-Up</legend>
+                                            <Form.Label>Username: </Form.Label>
+                                            <Form.Control type="text" value={this.state.regUsername}
+                                                          onChange={this.regUsernameChange}/>
+                                            <Form.Label>Password: </Form.Label>
+                                            <Form.Control type="text" value={this.state.regPassword}
+                                                          onChange={this.regPasswordChange}/>
+                                            <Form.Label>First Name: </Form.Label>
+                                            <Form.Control type="text" value={this.state.regFirstName}
+                                                          onChange={this.regFirstNameChange}/>
+                                            <Form.Label>Last Name: </Form.Label>
+                                            <Form.Control type="text" value={this.state.regLastName}
+                                                          onChange={this.regLastNameChange}/>
+                                            <Form.Label>Gender</Form.Label>
+                                            <Form.Control as="select" value={this.state.regGender}
+                                                          onChange={this.regGenderChange}>
+                                                <option></option>
+                                                <option value="Female">Female</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Others">Others</option>
+                                            </Form.Control>
+                                            <Form.Label>Date Of Birth: </Form.Label>
+                                            <Form.Control type="text" value={this.state.regDataOfBirth}
+                                                          onChange={this.regDataOfBirthChange}/>
+                                            {/*<Form.Label>Bio: </Form.Label>*/}
+                                            {/*<Form.Control type="text" value={this.state.regBio} onChange={this.regBioChange}/>*/}
+                                            <Form.Label>Administrate Key: </Form.Label>
+                                            <Form.Control type="text" value={this.state.regAdminKey}
+                                                          onChange={this.regAdminKeyChange}/>
+                                            <Form.Label> Type</Form.Label>
+                                            <Form.Control as="select" value={this.state.regUserType}
+                                                          onChange={this.regUserTypeChange}>
+                                                <option></option>
+                                                <option value="Administrator">Administrator</option>
+                                                <option value="User">User</option>
+                                                {/*<option value="Uploader">Uploader</option>*/}
+                                            </Form.Control>
+                                            <Button onClick={this.userSignUp}>Sign Up</Button>
+                                            <Button onClick={this.dismissState}>Back</Button>
+                                        </fieldset>
+                                    </Form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </td>
                 </tr>
             )
@@ -374,6 +462,7 @@ class MainComponent extends React.Component {
     }
 
     render() {
+        console.log(this.state.getUser[0])
         return (
             <Router>
                 <div>

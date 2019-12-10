@@ -8,7 +8,7 @@ export default class UserList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            users: []
+            users: [],
         };
     }
 
@@ -23,6 +23,8 @@ export default class UserList extends Component {
                 console.log(error);
             })
     }
+
+
 
     DataTable() {
         return this.state.users.map((res, i) => {

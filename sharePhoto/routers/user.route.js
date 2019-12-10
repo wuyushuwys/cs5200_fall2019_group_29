@@ -5,7 +5,7 @@ let mongoose = require('mongoose'),
 let userSchema = require('../models/humanUser/person');
 
 // CREATE User
-router.route('/create-user').post((req, res, next) => {
+router.route('/create').post((req, res, next) => {
     userSchema.create(req.body, (error, data) => {
         if (error) {
             return next(error)
@@ -27,8 +27,8 @@ router.route('/').get((req, res) => {
     })
 })
 
-// Get Single User
-router.route('/edit-user/:id').get((req, res) => {
+// Find User ID
+router.route('/:id').get((req, res) => {
     userSchema.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
@@ -38,8 +38,48 @@ router.route('/edit-user/:id').get((req, res) => {
     })
 })
 
+// Find User By Password and Username
+router.route('/:username/:password').get((req, res) => {
+    userSchema.find({
+        username: req.params.username,
+        password: req.params.password
+    }, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+})
+
+// Find Admin By Password and Username and Admin key
+router.route('/:username/:password/:adminKey').get((req, res) => {
+    userSchema.find({
+        username: req.params.username,
+        password: req.params.password,
+        adminKey: req.params.adminKey
+    }, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+})
+
+// // Get Single User
+// router.route('/edit/:id').get((req, res) => {
+//     userSchema.findById(req.params.id, (error, data) => {
+//         if (error) {
+//             return next(error)
+//         } else {
+//             res.json(data)
+//         }
+//     })
+// })
+
 // Update user
-router.route('/update-user/:id').put((req, res, next) => {
+router.route('/update/:id').put((req, res, next) => {
     userSchema.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
@@ -54,7 +94,7 @@ router.route('/update-user/:id').put((req, res, next) => {
 })
 
 // Delete User
-router.route('/delete-user/:id').delete((req, res, next) => {
+router.route('/delete/:id').delete((req, res, next) => {
     userSchema.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
