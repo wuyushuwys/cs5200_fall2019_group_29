@@ -279,7 +279,7 @@ class MainComponent extends React.Component {
                     <th>
                         <PhotoSearchComponent user={this.state.userProfile}/>
                     </th>
-                    <th valign={'top'}>
+                    <th valign={'top'} class="profile">
                         <h3 align={'center'}>Welcome Guest!</h3>
                         <h4>If you want to comment others photo or post you own, please sign in!</h4>
                     </th>
@@ -293,7 +293,7 @@ class MainComponent extends React.Component {
                         <PhotoSearchComponent handleSelectedPhotoId={this.handleSelectedPhotoId}
                                               user={this.state.userProfile}/>
                     </th>
-                    <th valign={"top"}>
+                    <th valign={"top"} class="profile">
                         <UserInterfaceComponent user={this.state.userProfile}
                                                 selectedPhotoId={this.state.selectedPhotoId}/>
                     </th>
