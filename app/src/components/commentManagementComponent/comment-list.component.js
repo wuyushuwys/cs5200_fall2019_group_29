@@ -39,6 +39,7 @@ export default class CommentList extends Component {
                         <th>User ID</th>
                         <th>Photo ID</th>
                         <th>Content</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>

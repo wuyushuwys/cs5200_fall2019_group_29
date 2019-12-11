@@ -24,7 +24,6 @@ export default class CommentTableRow extends Component {
                 <td>{this.props.obj.userId}</td>
                 <td>{this.props.obj.photoId}</td>
                 <td>{this.props.obj.content}</td>
-
                 <td>
                     <Link className="edit-link" to={"/comment_edit/" + this.props.obj._id}>Edit</Link>
                     <Button onClick={this.deleteComment} size="sm" variant="danger">Delete</Button>

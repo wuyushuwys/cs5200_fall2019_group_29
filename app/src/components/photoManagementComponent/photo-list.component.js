@@ -43,6 +43,7 @@ export default class PhotoList extends Component {
                         <th>Title</th>
                         <th>Description</th>
                         <th>URL</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>

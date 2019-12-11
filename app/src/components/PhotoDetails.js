@@ -7,8 +7,7 @@ class PhotoDetails extends React.Component {
             comments: [],
         };
     }
-
-
+    
     findCommentsByPhotoId = photoId =>
         fetch(`http://localhost:4000/comments/photo/${photoId}`)
             .then(response => response.json())
