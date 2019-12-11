@@ -2,11 +2,11 @@ let mongoose = require('mongoose'),
     express = require('express'),
     router = express.Router();
 
-let userSchema = require('../models/humanUser/person');
+let commentSchema = require('../models/relations/comment');
 
-// CREATE User
+// CREATE Comment
 router.route('/create').post((req, res, next) => {
-    userSchema.create(req.body, (error, data) => {
+    commentSchema.create(req.body, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -16,9 +16,9 @@ router.route('/create').post((req, res, next) => {
     })
 });
 
-// READ User
-router.route('/').get((req, res) => {
-    userSchema.find((error, data) => {
+// READ Comment
+router.route('/').get((req, res, next) => {
+    commentSchema.find((error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -27,9 +27,9 @@ router.route('/').get((req, res) => {
     })
 })
 
-// Find User ID
-router.route('/:id').get((req, res) => {
-    userSchema.findById(req.params.id, (error, data) => {
+// Find By Id
+router.route('/:id').get((req, res, next) => {
+    commentSchema.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -38,12 +38,9 @@ router.route('/:id').get((req, res) => {
     })
 })
 
-// Find User By Password and Username
-router.route('/:username/:password').get((req, res) => {
-    userSchema.find({
-        username: req.params.username,
-        password: req.params.password
-    }, (error, data) => {
+// Find By PhotoId
+router.route('/photo/:photoId').get((req, res, next) => {
+    commentSchema.find({photoId: req.params.photoId}, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -52,13 +49,9 @@ router.route('/:username/:password').get((req, res) => {
     })
 })
 
-// Find Admin By Password and Username and Admin key
-router.route('/:username/:password/:adminKey').get((req, res) => {
-    userSchema.find({
-        username: req.params.username,
-        password: req.params.password,
-        adminKey: req.params.adminKey
-    }, (error, data) => {
+// Find By UserId
+router.route('/user/:userId').get((req, res, next) => {
+    commentSchema.find({ userId: mongoose.Schema.Types.ObjectId(req.params.userId)}, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -67,10 +60,9 @@ router.route('/:username/:password/:adminKey').get((req, res) => {
     })
 })
 
-
-// Update user
+// Update comment
 router.route('/update/:id').put((req, res, next) => {
-    userSchema.findByIdAndUpdate(req.params.id, {
+    commentSchema.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
         if (error) {
@@ -78,14 +70,14 @@ router.route('/update/:id').put((req, res, next) => {
             console.log(error)
         } else {
             res.json(data)
-            console.log('User updated successfully !')
+            console.log('Comment updated successfully !')
         }
     })
 })
 
-// Delete User
+// Delete comment
 router.route('/delete/:id').delete((req, res, next) => {
-    userSchema.findByIdAndRemove(req.params.id, (error, data) => {
+    commentSchema.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
         } else {

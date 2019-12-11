@@ -9,9 +9,9 @@ import "./UserManageInterfaceComponent.css";
 
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
-import CreateUser from "./create-user.component";
-import EditUser from "./edit-user.component";
-import UserList from "./user-list.component";
+import CreateUser from "./userManagementComponent/create-user.component";
+import EditUser from "./userManagementComponent/edit-user.component";
+import UserList from "./userManagementComponent/user-list.component";
 
 
 class UserManageInterfaceComponent extends React.Component {

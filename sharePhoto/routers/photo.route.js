@@ -2,11 +2,11 @@ let mongoose = require('mongoose'),
     express = require('express'),
     router = express.Router();
 
-let userSchema = require('../models/humanUser/person');
+let photoSchema = require('../models/applicationContents/photo')
 
-// CREATE User
+// CREATE Photo
 router.route('/create').post((req, res, next) => {
-    userSchema.create(req.body, (error, data) => {
+    photoSchema.create(req.body, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -16,9 +16,9 @@ router.route('/create').post((req, res, next) => {
     })
 });
 
-// READ User
+// READ Photo
 router.route('/').get((req, res) => {
-    userSchema.find((error, data) => {
+    photoSchema.find((error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -27,9 +27,20 @@ router.route('/').get((req, res) => {
     })
 })
 
-// Find User ID
+// Find By Owner Id
+router.route('/user/:ownerId').get((req, res) => {
+    photoSchema.find({ownerId: mongoose.Schema.Types.ObjectId(req.params.ownerId)}, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
+})
+
+// Find By Id
 router.route('/:id').get((req, res) => {
-    userSchema.findById(req.params.id, (error, data) => {
+    photoSchema.findById(req.params.id, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -38,39 +49,9 @@ router.route('/:id').get((req, res) => {
     })
 })
 
-// Find User By Password and Username
-router.route('/:username/:password').get((req, res) => {
-    userSchema.find({
-        username: req.params.username,
-        password: req.params.password
-    }, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            res.json(data)
-        }
-    })
-})
-
-// Find Admin By Password and Username and Admin key
-router.route('/:username/:password/:adminKey').get((req, res) => {
-    userSchema.find({
-        username: req.params.username,
-        password: req.params.password,
-        adminKey: req.params.adminKey
-    }, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            res.json(data)
-        }
-    })
-})
-
-
-// Update user
+// Update photo
 router.route('/update/:id').put((req, res, next) => {
-    userSchema.findByIdAndUpdate(req.params.id, {
+    photoSchema.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, (error, data) => {
         if (error) {
@@ -78,12 +59,12 @@ router.route('/update/:id').put((req, res, next) => {
             console.log(error)
         } else {
             res.json(data)
-            console.log('User updated successfully !')
+            console.log('Photo updated successfully !')
         }
     })
 })
 
-// Delete User
+// Delete photo
 router.route('/delete/:id').delete((req, res, next) => {
     userSchema.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
