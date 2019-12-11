@@ -15,14 +15,14 @@ export default class CreateComment extends Component {
 
         // Setting up state
         this.state = {
-            useId:'',
+            userId:'',
             photoId:'',
             content:'',
         }
     }
 
     onChangeUserId(e){
-        this.setState({ useId: e.target.value})
+        this.setState({ userId: e.target.value})
     }
     onChangePhotoId(e){
         this.setState({ photoId: e.target.value})
@@ -38,16 +38,16 @@ export default class CreateComment extends Component {
 
         console.log('this:',this)
         const commentObject = {
-            useId: this.state.useId,
+            userId: this.state.userId,
             photoId: this.state.photoId,
             content: this.state.content,
         };
 
-        axios.post('http://localhost:4000/comments/create-comment', commentObject)
+        axios.post('http://localhost:4000/comments/create', commentObject)
             .then(res => console.log(res.data));
 
         this.setState({
-            useId:'',
+            userId:'',
             photoId:'',
             content:''
         });

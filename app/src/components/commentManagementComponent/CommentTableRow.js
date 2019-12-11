@@ -9,7 +9,7 @@ export default class CommentTableRow extends Component {
         this.deleteComment = this.deleteComment.bind(this);
     }
     deleteComment() {
-        axios.delete('http://localhost:4000/comments/delete-comment/' + this.props.obj._id)
+        axios.delete('http://localhost:4000/comments/delete/' + this.props.obj._id)
             .then((res) => {
                 console.log('Comment successfully deleted!')
             }).catch((error) => {
@@ -18,6 +18,7 @@ export default class CommentTableRow extends Component {
     }
 
     render() {
+
         return(
             <tr>
                 <td>{this.props.obj.userId}</td>
@@ -25,8 +26,8 @@ export default class CommentTableRow extends Component {
                 <td>{this.props.obj.content}</td>
 
                 <td>
-                    <Link className="edit-link" to={"/edit-comment/" + this.props.obj._id}>Edit</Link>
-                    <Button onClick={this.deleteUser} size="sm" variant="danger">Delete</Button>
+                    <Link className="edit-link" to={"/comment/edit/" + this.props.obj._id}>Edit</Link>
+                    <Button onClick={this.deleteComment} size="sm" variant="danger">Delete</Button>
                 </td>
             </tr>
         )

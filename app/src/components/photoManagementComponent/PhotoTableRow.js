@@ -10,7 +10,7 @@ export default class PhotoTableRow extends Component {
     }
 
     deletePhoto() {
-        axios.delete('http://localhost:4000/photos/delete-photo/' + this.props.obj._id)
+        axios.delete('http://localhost:4000/photos/delete/' + this.props.obj._id)
             .then((res) => {
                 console.log('Photo successfully deleted!')
             }).catch((error) => {
@@ -21,14 +21,14 @@ export default class PhotoTableRow extends Component {
     render() {
         return(
             <tr>
-                <td>{this.props.obj.authorId}</td>
-                <td>{this.props.obj.photoId}</td>
+                <td>{this.props.obj.ownerId}</td>
+                <td>{this.props.obj.src}</td>
                 <td>{this.props.obj.title}</td>
                 <td>{this.props.obj.description}</td>
-                <td>{this.props.obj.url}</td>
+                <td>{this.props.obj.src}</td>
                 <td>
-                    <Link className="edit-link" to={"/edit-user/" + this.props.obj._id}>Edit</Link>
-                    <Button onClick={this.deleteUser} size="sm" variant="danger">Delete</Button>
+                    <Link className="edit-link" to={"/photo/edit/" + this.props.obj._id}>Edit</Link>
+                    <Button onClick={this.deletePhoto} size="sm" variant="danger">Delete</Button>
                 </td>
             </tr>
         )

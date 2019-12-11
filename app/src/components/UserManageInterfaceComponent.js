@@ -13,6 +13,13 @@ import CreateUser from "./userManagementComponent/create-user.component";
 import EditUser from "./userManagementComponent/edit-user.component";
 import UserList from "./userManagementComponent/user-list.component";
 
+import CommentList from "./commentManagementComponent/comment-list.component";
+import EditComment from "./commentManagementComponent/edit-comment.component";
+
+import PhotoList from "./photoManagementComponent/photo-list.component";
+import EditPhoto from "./photoManagementComponent/edit-photo.component";
+
+import EmptyComponent from "./EmptyComponent";
 
 class UserManageInterfaceComponent extends React.Component {
 
@@ -39,13 +46,13 @@ class UserManageInterfaceComponent extends React.Component {
                                     </Link>
                                 </Nav>
                                 <Nav>
-                                  <Link to={"/"} className="nav-link">
-                                    List Posted Photo
+                                  <Link to={"/photo"} className="nav-link">
+                                    Posted Photos
                                   </Link>
                                 </Nav>
                                 <Nav>
-                                  <Link to={"/"} className="nav-link">
-                                    List Comments
+                                  <Link to={"/comment"} className="nav-link">
+                                    Comments
                                   </Link>
                                 </Nav>
                             </Nav>
@@ -58,10 +65,17 @@ class UserManageInterfaceComponent extends React.Component {
                         <Col md={12}>
                             <div className="wrapper">
                                 <Switch>
-                                    <Route exact path='/' component={UserList}/>
+                                    <Route exact path='/' component={EmptyComponent}/>
+
                                     <Route path="/user/create" component={CreateUser}/>
                                     <Route path="/user/edit/:id" component={EditUser}/>
                                     <Route path="/user" component={UserList}/>
+                                    <Route path="/comment" component={CommentList}/>
+                                    <Route path="/comment/edit/:id" component={EditComment}/>
+                                    <Route path="/photo" component={PhotoList}/>
+                                    <Route path="/photo/edit/:id" component={EditPhoto}/>
+
+
                                 </Switch>
                             </div>
                         </Col>

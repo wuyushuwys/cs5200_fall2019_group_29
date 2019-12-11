@@ -66,7 +66,7 @@ router.route('/update/:id').put((req, res, next) => {
 
 // Delete photo
 router.route('/delete/:id').delete((req, res, next) => {
-    userSchema.findByIdAndRemove(req.params.id, (error, data) => {
+    photoSchema.findByIdAndRemove(req.params.id, (error, data) => {
         if (error) {
             return next(error);
         } else {

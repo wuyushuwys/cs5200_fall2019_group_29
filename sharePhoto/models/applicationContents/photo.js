@@ -4,8 +4,8 @@ let photoSchema  = mongoose.Schema({
     // _id: Number,
     title: String,
     description: String,
-    // likes:Number,
-    ownerId: mongoose.Schema.ObjectId,
+    src: String,
+    ownerId: String,
     ownerName: String,
     created: Date,
     updated:Date

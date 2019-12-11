@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
 import {MDBInput} from 'mdbreact';
+import axios from "axios";
 
+const mongoose = require('mongoose')
 
 class UserInterfaceComponent extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             username: this.props.user.username,
             password: this.props.user.password,
+            userId: this.findUserByCredential(this.props.user.username, this.props.user.password),
             error: '',
             comment: '',
             photo_title: '',
             photo_src: '',
             photo_description: '',
-            photo: {
-                title: '',
-                src: '',
-                description: '',
-            },
+
         };
 
         this.dismissError = this.dismissError.bind(this);
@@ -29,6 +29,17 @@ class UserInterfaceComponent extends Component {
         this.handlePhotoDescriptionChange = this.handlePhotoDescriptionChange.bind(this);
 
     }
+
+    findUserByCredential = (username, password) =>
+        axios.get(`http://localhost:4000/users/${username}/${password}`)
+            .then(res => {
+                this.setState({
+                    userId: res.data[0]._id,
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
     dismissError() {
         this.setState({error: ''});
@@ -48,7 +59,58 @@ class UserInterfaceComponent extends Component {
         return this.setState({error: ''});
     }
 
-    submitComment = () => console.log("Submit Comment: " + this.state.comment)
+    getCurrentDate = () => {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
+        return mm + '/' + dd + '/' + yyyy;
+
+    }
+
+    onSubmitPhoto = async e => {
+        await e.preventDefault()
+
+        await console.log(this.state.userId)
+        const photoObject = {
+            title: this.state.photo_title,
+            description: this.state.photo_description,
+            src: this.state.photo_src,
+            ownerId: this.state.userId,
+            ownerName: this.state.username,
+            created: this.getCurrentDate(),
+            updated: this.getCurrentDate(),
+        };
+
+        await axios.post('http://localhost:4000/photos/create', photoObject)
+            .then(res => console.log(res.data));
+
+        await this.setState({
+            comment: ''
+        });
+    }
+
+
+    onSubmitComment = async e => {
+        await e.preventDefault()
+
+        await console.log(this.state.userId)
+        // console.log('this:',this)
+        const commentObject = {
+            userId: this.state.userId,
+            photoId: this.props.selectedPhotoId,
+            content: this.state.comment,
+        };
+
+        await axios.post('http://localhost:4000/comments/create', commentObject)
+            .then(res => console.log(res.data));
+
+        await this.setState({
+            comment: ''
+        });
+    }
+
+    // submitComment = () => console.log("Submit Comment: " + this.state.comment)
 
 
     handlePhotoTitleChange = event =>
@@ -60,23 +122,9 @@ class UserInterfaceComponent extends Component {
     handlePhotoDescriptionChange = event =>
         this.setState({photo_description: event.target.value,})
 
-    postPhoto = async () => {
-        await this.setState({
-            photo: {
-                title: this.state.photo_title,
-                src: this.state.photo_src,
-                description: this.state.photo_description,
-            },
-            photo_title: '',
-            photo_src: '',
-            photo_description: '',
-        })
-
-    }
-
 
     render() {
-        // console.log("read id" + JSON.stringify(this.state))
+
         // NOTE: I use data-attributes for easier E2E testing
         // but you don't need to target those (any css-selector will work)
         if (this.props.user.type === "Guest") {
@@ -85,6 +133,21 @@ class UserInterfaceComponent extends Component {
                     <h1>You are a guest!</h1>
                 </div>);
         } else {
+            const commentForm = this.props.selectedPhotoId === '' ? <td></td> :
+                <td>
+                    <form onSubmit={this.onSubmitComment}>
+                        <fieldset>
+                            <legend align={'center'}>Comment</legend>
+                            <p align={'center'}>{this.props.selectedPhotoId}</p>
+                            <MDBInput type='textarea' value={this.state.comment} rows={'5'}
+                                      onChange={this.handleCommentChange} style={{width: "300px"}}/>
+                            <br/>
+                            <p align={'center'}>
+                                <button type={"submit"}>Submit</button>
+                            </p>
+                        </fieldset>
+                    </form>
+                </td>
             return (
                 <div className="Login">
                     <table border={"1"} width={"300"}>
@@ -103,7 +166,7 @@ class UserInterfaceComponent extends Component {
                         </tr>
                         <tr align={"left"}>
                             <td>
-                                <form onSubmit={this.handleUser}>
+                                <form onSubmit={this.onSubmitPhoto}>
                                     <fieldset>
                                         <legend align={'center'}>Post Your Photo</legend>
                                         <label>Title: </label>
@@ -122,27 +185,14 @@ class UserInterfaceComponent extends Component {
                                                style={{width: "200px"}}/>
                                         <br/>
                                         <p align={'center'}>
-                                            <button onClick={this.postPhoto}>Post</button>
+                                            <button type={"submit"}>Post</button>
                                         </p>
                                     </fieldset>
                                 </form>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <form onSubmit={this.handleUser}>
-                                    <fieldset>
-                                        <legend align={'center'}>Comment</legend>
-                                        <p align={'center'}>{this.props.selectedPhotoId}</p>
-                                        <MDBInput type='textarea' value={this.state.comment} rows={'5'}
-                                                  onChange={this.handleCommentChange} style={{width: "300px"}}/>
-                                        <br/>
-                                        <p align={'center'}>
-                                            <button onClick={this.submitComment}>Submit</button>
-                                        </p>
-                                    </fieldset>
-                                </form>
-                            </td>
+                            {commentForm}
                         </tr>
                         </tbody>
                     </table>

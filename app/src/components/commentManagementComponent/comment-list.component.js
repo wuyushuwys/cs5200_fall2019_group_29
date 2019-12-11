@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
-import CommentTableRow from '../userManagementComponent/UserTableRow';
-
+import CommentTableRow from "./CommentTableRow";
 export default class CommentList extends Component {
     constructor(props) {
         super(props)
@@ -11,7 +10,7 @@ export default class CommentList extends Component {
         };
     }
 
-    omponentDidMount() {
+    componentDidMount() {
         axios.get('http://localhost:4000/comments/')
             .then(res => {
                 this.setState({
