@@ -466,7 +466,7 @@ class MainComponent extends React.Component {
         return (
             <Router>
                 <div>
-                    <table border={"1"} width={"1200"}>
+                    <table>
                         <thead>
                         <tr>
                             <td colSpan='100'>
