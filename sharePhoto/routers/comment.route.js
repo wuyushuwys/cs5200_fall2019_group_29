@@ -51,7 +51,7 @@ router.route('/photo/:photoId').get((req, res, next) => {
 
 // Find By UserId
 router.route('/user/:userId').get((req, res, next) => {
-    commentSchema.find({ userId: mongoose.Schema.Types.ObjectId(req.params.userId)}, (error, data) => {
+    commentSchema.find({ userId: req.params.userId}, (error, data) => {
         if (error) {
             return next(error)
         } else {

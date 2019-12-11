@@ -17,6 +17,8 @@ class PhotoSearchComponent extends React.Component {
             collectionDescription: 'Boston',
             selectedCollection: {},
 
+            userProfile: this.props.user,
+
         }
     }
 
@@ -88,12 +90,12 @@ class PhotoSearchComponent extends React.Component {
         this.setState({collectionDescription: event.target.value})
 
 
-    selectPhoto = photo =>{
+    selectPhoto = photo => {
         this.findPhotoById(photo.id)
             .then(photo => this.setState({
                 selectedPhoto: photo,
             }))
-        if(this.props.user.type !== 'Guest')
+        if (this.props.user.type !== 'Guest')
             this.props.handleSelectedPhotoId(photo.id)
     }
 

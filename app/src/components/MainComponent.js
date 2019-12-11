@@ -466,7 +466,7 @@ class MainComponent extends React.Component {
     }
 
     render() {
-        console.log(this.state.getUser[0])
+        // console.log(this.state.getUser[0])
         return (
             <Router>
                 <div>

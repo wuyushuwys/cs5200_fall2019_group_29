@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {MDBInput} from 'mdbreact';
 import axios from "axios";
 
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
 class UserInterfaceComponent extends Component {
     constructor(props) {
@@ -11,15 +11,16 @@ class UserInterfaceComponent extends Component {
         this.state = {
             username: this.props.user.username,
             password: this.props.user.password,
-            userId: this.findUserByCredential(this.props.user.username, this.props.user.password),
+            userId: '',
+            userType: '',
             error: '',
             comment: '',
             photo_title: '',
             photo_src: '',
             photo_description: '',
-
+            comments: [],
+            showPhotoUrl: '',
         };
-
         this.dismissError = this.dismissError.bind(this);
         this.handleCommentChange = this.handleCommentChange.bind(this);
         this.handleUser = this.handleUser.bind(this)
@@ -29,12 +30,18 @@ class UserInterfaceComponent extends Component {
         this.handlePhotoDescriptionChange = this.handlePhotoDescriptionChange.bind(this);
 
     }
+    //
+    // componentDidMount() {
+    //     this.findUserByCredential(this.state.username, this.state.password)
+    //         .then(() => this.searchUserAllComments())
+    // }
 
     findUserByCredential = (username, password) =>
         axios.get(`http://localhost:4000/users/${username}/${password}`)
             .then(res => {
                 this.setState({
                     userId: res.data[0]._id,
+                    userType: res.data[0].personType,
                 });
             })
             .catch((error) => {
@@ -43,6 +50,17 @@ class UserInterfaceComponent extends Component {
 
     dismissError() {
         this.setState({error: ''});
+    }
+
+    findCommentsByUserId = userId =>
+        fetch(`http://localhost:4000/comments/user/${userId}`)
+            .then(response => response.json())
+
+    searchUserAllComments = () => {
+        this.findCommentsByUserId(this.state.userId)
+            .then(result => this.setState({
+                comments: result,
+            }))
     }
 
 
@@ -86,7 +104,9 @@ class UserInterfaceComponent extends Component {
             .then(res => console.log(res.data));
 
         await this.setState({
-            comment: ''
+            photo_title: '',
+            photo_src: '',
+            photo_description: '',
         });
     }
 
@@ -122,9 +142,34 @@ class UserInterfaceComponent extends Component {
     handlePhotoDescriptionChange = event =>
         this.setState({photo_description: event.target.value,})
 
+    findPhotoById = id =>
+        fetch(`https://api.unsplash.com/photos/${id}?client_id=066cb3e68a925378879d54c9498d91848faacac1484529cc1759cf7dfe2a32b3`)
+            .then(response => response.json())
+
+
 
     render() {
+        this.findUserByCredential(this.state.username, this.state.password)
+            .then(() => this.searchUserAllComments())
 
+        const allUserComments =
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        {
+                            this.state.comments.map(comment =>
+                                <li key={comment._id}
+                                    style={{listStyleType: "none"}}>
+                                    {/*<img src={this.findPhotoById(comment.photoId).then(result => result.urls.small)}*/}
+                                    {/*     width="100" alt={comment.photoId}/>*/}
+                                    <p>{comment.photoId}-->{comment.content}</p>
+                                </li>
+                            )}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         // NOTE: I use data-attributes for easier E2E testing
         // but you don't need to target those (any css-selector will work)
         if (this.props.user.type === "Guest") {
@@ -159,8 +204,8 @@ class UserInterfaceComponent extends Component {
                             <td align={"left"}>
                                 <fieldset>
                                     <legend align={"center"}>Current User Profile</legend>
-                                    <li>Username: {this.props.user.username}</li>
-                                    <li>User Type: {this.props.user.type}</li>
+                                    <li>Username: {this.state.username}</li>
+                                    <li>User Type: {this.state.userType}</li>
                                 </fieldset>
                             </td>
                         </tr>
@@ -193,6 +238,11 @@ class UserInterfaceComponent extends Component {
                         </tr>
                         <tr>
                             {commentForm}
+                        </tr>
+                        <tr>
+                            <td>
+                                {allUserComments}
+                            </td>
                         </tr>
                         </tbody>
                     </table>

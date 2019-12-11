@@ -31,7 +31,7 @@ export default class UserTableRow extends Component {
                 <td>{this.props.obj.adminKey}</td>
                 <td>{this.props.obj.password}</td>
                 <td>
-                    <Link className="edit-link" to={"/user/edit/" + this.props.obj._id}>Edit</Link>
+                    <Link className="edit-link" to={"/user_edit/" + this.props.obj._id}>Edit</Link>
                     <Button onClick={this.deleteUser} size="sm" variant="danger">Delete</Button>
                 </td>
             </tr>

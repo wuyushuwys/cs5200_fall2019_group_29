@@ -11,27 +11,27 @@ export default class EditPhoto extends Component {
         this.onChangeAuthorId = this.onChangeAuthorId.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
-        this.onChangeUrl = this.onChangeUrl.bind(this);
+        this.onChangeSource = this.onChangeSource.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            authorId:'',
+            ownerId:'',
             photoId:'',
             title:'',
             description:'',
-            url:''
+            source:''
         }
     }
 
     componentDidMount(){
-        axios.get('http://localhost:4000/photos/edit-photo/' + this.props.match.params.id)
+        axios.get('http://localhost:4000/photos/' + this.props.match.params.id)
             .then(res => {
                 this.setState({
-                    authorId: res.data.authorId,
-                    photoId: res.data.photoId,
+                    ownerId: res.data.ownerId,
+                    photoId: res.data._id,
                     title:res.data.title,
                     description: res.data.description,
-                    url:res.data.url
+                    source:res.data.src
                 });
             })
             .catch((error) => {
@@ -54,22 +54,22 @@ export default class EditPhoto extends Component {
         this.setState({ description: e.target.value })
     }
 
-    onChangeUrl(e) {
-        this.setState({ url: e.target.value })
+    onChangeSource(e) {
+        this.setState({ source: e.target.value })
     }
 
     onSubmit(e) {
         e.preventDefault()
 
         const photoObject = {
-            authorId: this.state.authorId,
+            ownerId: this.state.ownerId,
             photoId: this.state.photoId,
             title: this.state.title,
             description:this.state.description,
-            url:this.state.url,
+            source:this.state.source,
         };
 
-        axios.put('http://localhost:4000/photos/update-photo/' + this.props.match.params.id, photoObject)
+        axios.put('http://localhost:4000/photos/update/' + this.props.match.params.id, photoObject)
             .then((res) => {
                 console.log(res.data)
                 console.log('Photo successfully updated')
@@ -78,22 +78,22 @@ export default class EditPhoto extends Component {
         })
 
         // Redirect to Student List
-        this.props.history.push('/photo-list')
+        this.props.history.push('/photo')
     }
 
     render() {
         return (
             <div className="form-wrapper">
                 <Form onSubmit={this.onSubmit}>
-                    <Form.Group controlId="AuthorId">
-                        <Form.Label>AuthorId</Form.Label>
-                        <Form.Control type="text" value={this.state.authorId} onChange={this.onChangeAuthorId} />
-                    </Form.Group>
+                    {/*<Form.Group controlId="AuthorId">*/}
+                    {/*    <Form.Label>OwnerId</Form.Label>*/}
+                    {/*    <Form.Control type="text" value={this.state.ownerId} onChange={this.onChangeAuthorId} />*/}
+                    {/*</Form.Group>*/}
 
-                    <Form.Group controlId="PhotoId">
-                        <Form.Label>PhotoId</Form.Label>
-                        <Form.Control type="text" value={this.state.photoId} onChange={this.onChangePhotoId} />
-                    </Form.Group>
+                    {/*<Form.Group controlId="PhotoId">*/}
+                    {/*    <Form.Label>PhotoId</Form.Label>*/}
+                    {/*    <Form.Control type="text" value={this.state.photoId} onChange={this.onChangePhotoId} />*/}
+                    {/*</Form.Group>*/}
 
                     <Form.Group controlId="Title">
                         <Form.Label>Title</Form.Label>
@@ -105,9 +105,9 @@ export default class EditPhoto extends Component {
                         <Form.Control type="text" value={this.state.description} onChange={this.onChangeDescription} />
                     </Form.Group>
 
-                    <Form.Group controlId="Url">
-                        <Form.Label>URL</Form.Label>
-                        <Form.Control type="text" value={this.state.url} onChange={this.onChangeUrl} />
+                    <Form.Group controlId="Source">
+                        <Form.Label>Source</Form.Label>
+                        <Form.Control type="text" value={this.state.source} onChange={this.onChangeSource} />
                     </Form.Group>
 
                     <Button variant="danger" size="lg" block="block" type="submit">
