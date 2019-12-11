@@ -191,10 +191,12 @@ class MainComponent extends React.Component {
             })
         if (await this.state.getUser.length === 1) {
             console.log(this.state.getUser[0])
-            if (this.state.getUser[0].personType === 'Administrator')
+            if (this.state.getUser[0].personType === 'Administrator' && this.state.getUser[0].adminKey === this.state.userProfile.adminKey)
                 return this.setState({
                     loginPrompt: true,
                 })
+            else
+                return this.dismissState()
         } else
             return this.dismissState()
     }
@@ -253,7 +255,7 @@ class MainComponent extends React.Component {
             gender: this.state.regGender,
             birthday: this.state.regDataOfBirth,
             personType: this.state.regUserType,
-            adminKey: this.state.adminKey,
+            adminKey: this.state.regAdminKey,
             password: this.state.regPassword,
         };
 
@@ -447,10 +449,10 @@ class MainComponent extends React.Component {
                                                 <option value="User">User</option>
                                                 {/*<option value="Uploader">Uploader</option>*/}
                                             </Form.Control>
-											<div>
-                                            <Button onClick={this.userSignUp}>Sign Up</Button>
-                                            <Button onClick={this.dismissState}>Back</Button>
-											</div>
+                                            <div>
+                                                <Button onClick={this.userSignUp}>Sign Up</Button>
+                                                <Button onClick={this.dismissState}>Back</Button>
+                                            </div>
                                         </fieldset>
                                     </Form>
                                 </td>
