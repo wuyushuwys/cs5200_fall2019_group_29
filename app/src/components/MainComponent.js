@@ -447,8 +447,10 @@ class MainComponent extends React.Component {
                                                 <option value="User">User</option>
                                                 {/*<option value="Uploader">Uploader</option>*/}
                                             </Form.Control>
+											<div>
                                             <Button onClick={this.userSignUp}>Sign Up</Button>
                                             <Button onClick={this.dismissState}>Back</Button>
+											</div>
                                         </fieldset>
                                     </Form>
                                 </td>
