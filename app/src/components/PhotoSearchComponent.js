@@ -159,7 +159,7 @@ class PhotoSearchComponent extends React.Component {
                                             this.state.photos.map(photo =>
                                                 <li onClick={() => this.selectPhoto(photo)} key={photo.id}
                                                     style={{listStyleType: "none"}}>
-                                                    <img src={photo.urls.full} width="250" alt={photo.alt_description}/>
+                                                    <img src={photo.urls.small} width="250" alt={photo.alt_description}/>
                                                 </li>
                                             )
                                         }

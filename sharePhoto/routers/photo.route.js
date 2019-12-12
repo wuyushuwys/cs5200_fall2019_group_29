@@ -29,7 +29,7 @@ router.route('/').get((req, res) => {
 
 // Find By Owner Id
 router.route('/user/:ownerId').get((req, res) => {
-    photoSchema.find({ownerId: mongoose.Schema.Types.ObjectId(req.params.ownerId)}, (error, data) => {
+    photoSchema.find({ownerId: req.params.ownerId}, (error, data) => {
         if (error) {
             return next(error)
         } else {

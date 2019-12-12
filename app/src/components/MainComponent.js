@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Link} from "react-router-dom";
 import {Button} from 'react-bootstrap'
 import axios from "axios";
 import Form from 'react-bootstrap/Form'
+import UserPostedAndComentedComponent from "./UserPostedAndComentedComponent";
 
 
 class MainComponent extends React.Component {
@@ -294,9 +295,20 @@ class MainComponent extends React.Component {
                                               user={this.state.userProfile}/>
                     </th>
                     <th valign={"top"}>
-                        <UserInterfaceComponent user={this.state.userProfile}
-                                                selectedPhotoId={this.state.selectedPhotoId}/>
+                        <tr>
+                            <td>
+                                <UserInterfaceComponent user={this.state.userProfile}
+                                                        selectedPhotoId={this.state.selectedPhotoId}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <UserPostedAndComentedComponent user={this.state.userProfile}/>
+                            </td>
+                        </tr>
+
                     </th>
+
                 </tr>
             )
         } else if (this.state.userProfile.type === 'Administrator' && this.state.loginPrompt) {

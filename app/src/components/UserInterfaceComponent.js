@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {MDBInput} from 'mdbreact';
 import axios from "axios";
 
-// const mongoose = require('mongoose')
 
 class UserInterfaceComponent extends Component {
     constructor(props) {
@@ -30,11 +29,10 @@ class UserInterfaceComponent extends Component {
         this.handlePhotoDescriptionChange = this.handlePhotoDescriptionChange.bind(this);
 
     }
-    //
-    // componentDidMount() {
-    //     this.findUserByCredential(this.state.username, this.state.password)
-    //         .then(() => this.searchUserAllComments())
-    // }
+
+    componentDidMount() {
+        this.findUserByCredential(this.state.username, this.state.password)
+    }
 
     findUserByCredential = (username, password) =>
         axios.get(`http://localhost:4000/users/${username}/${password}`)
@@ -52,16 +50,16 @@ class UserInterfaceComponent extends Component {
         this.setState({error: ''});
     }
 
-    findCommentsByUserId = userId =>
-        fetch(`http://localhost:4000/comments/user/${userId}`)
-            .then(response => response.json())
-
-    searchUserAllComments = () => {
-        this.findCommentsByUserId(this.state.userId)
-            .then(result => this.setState({
-                comments: result,
-            }))
-    }
+    // findCommentsByUserId = userId =>
+    //     fetch(`http://localhost:4000/comments/user/${userId}`)
+    //         .then(response => response.json())
+    //
+    // searchUserAllComments = () => {
+    //     this.findCommentsByUserId(this.state.userId)
+    //         .then(result => this.setState({
+    //             comments: result,
+    //         }))
+    // }
 
 
     handleCommentChange = event =>
@@ -149,27 +147,25 @@ class UserInterfaceComponent extends Component {
 
 
     render() {
-        this.findUserByCredential(this.state.username, this.state.password)
-            .then(() => this.searchUserAllComments())
 
-        const allUserComments =
-            <table>
-                <tbody>
-                <tr>
-                    <td>
-                        {
-                            this.state.comments.map(comment =>
-                                <li key={comment._id}
-                                    style={{listStyleType: "none"}}>
-                                    {/*<img src={this.findPhotoById(comment.photoId).then(result => result.urls.small)}*/}
-                                    {/*     width="100" alt={comment.photoId}/>*/}
-                                    <p>{comment.photoId}-->{comment.content}</p>
-                                </li>
-                            )}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        // const allUserComments =
+        //     <table>
+        //         <tbody>
+        //         <tr>
+        //             <td>
+        //                 {
+        //                     this.state.comments.map(comment =>
+        //                         <li key={comment._id}
+        //                             style={{listStyleType: "none"}}>
+        //                             {/*<img src={this.findPhotoById(comment.photoId).then(result => result.urls.small)}*/}
+        //                             {/*     width="100" alt={comment.photoId}/>*/}
+        //                             <p>{comment.photoId}-->{comment.content}</p>
+        //                         </li>
+        //                     )}
+        //             </td>
+        //         </tr>
+        //         </tbody>
+        //     </table>
         // NOTE: I use data-attributes for easier E2E testing
         // but you don't need to target those (any css-selector will work)
         if (this.props.user.type === "Guest") {
@@ -239,11 +235,11 @@ class UserInterfaceComponent extends Component {
                         <tr>
                             {commentForm}
                         </tr>
-                        <tr>
-                            <td>
-                                {allUserComments}
-                            </td>
-                        </tr>
+                        {/*<tr>*/}
+                        {/*    <td>*/}
+                        {/*        {allUserComments}*/}
+                        {/*    </td>*/}
+                        {/*</tr>*/}
                         </tbody>
                     </table>
                 </div>
