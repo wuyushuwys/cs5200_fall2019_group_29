@@ -7,6 +7,7 @@ let bodyParser = require('body-parser');
 const userRoute = require('./routers/user.route')
 const photoRoute = require('./routers/photo.route')
 const commentRoute = require('./routers/comment.route')
+const followRoute = require('./routers/follow.route')
 // Connecting mongoDB Database
 
 const app = express();
@@ -18,7 +19,7 @@ app.use(cors());
 app.use('/users', userRoute)
 app.use('/photos', photoRoute)
 app.use('/comments', commentRoute)
-
+app.use('/follows', followRoute)
 
 
 // PORT

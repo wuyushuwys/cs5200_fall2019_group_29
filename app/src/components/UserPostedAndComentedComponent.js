@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-
 import axios from "axios";
 
 class UserPostedAndComentedComponent extends Component {
@@ -21,7 +20,7 @@ class UserPostedAndComentedComponent extends Component {
             .then(() => this.searchUserAllComments())
             .then(() => this.searchUserAllPhotos())
     }
-    
+
 
     findUserByCredential = (username, password) =>
         axios.get(`http://localhost:4000/users/${username}/${password}`)
@@ -63,40 +62,62 @@ class UserPostedAndComentedComponent extends Component {
             <table border={'1'}>
                 <tbody>
                 <tr>
-                    <table>
-                        <tbody>
-                        <tr><h4>user's comments</h4></tr>
-                            <ol>
-                                {
-                                    this.state.comments.map(comment =>
-                                        <li key={comment._id}>
-                                            <p>{comment.content}<br/>-->{comment.photoId}</p>
-                                        </li>
-                                    )}
-                            </ol>
-                        </tbody>
-                    </table>
+                    <td>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td><h4>user's comments</h4></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ol>
+                                        {
+                                            this.state.comments.map(comment =>
+                                                <li key={comment._id}>
+                                                    <p>{comment.content}<br/>-->{comment.photoId}</p>
+                                                </li>
+                                            )}
+                                    </ol>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
                 <tr>
-                    <table>
-                        <tbody>
-                        <tr><h4>user posted photos</h4></tr>
-                        <ol>
-                            {
-                                this.state.photos.map(photo =>
-                                    <li key={photo._id}>
-                                        <table>
-                                            <tbody>
-                                            <tr><td>Title: {photo.title}</td></tr>
-                                            <tr><td>Description: {photo.description}</td></tr>
-                                            <tr><td><img src={photo.src} width={200} alt={photo._id}/></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </li>
-                                )}
-                        </ol>
-                        </tbody>
-                    </table>
+                    <td>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td><h4>user posted photos</h4></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <ol>
+                                        {
+                                            this.state.photos.map(photo =>
+                                                <li key={photo._id}>
+                                                    <table>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>Title: {photo.title}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Description: {photo.description}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><img src={photo.src} width={200} alt={photo._id}/></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </li>
+                                            )}
+                                    </ol>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
                 </tbody>
             </table>

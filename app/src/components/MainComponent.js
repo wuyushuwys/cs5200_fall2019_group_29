@@ -7,7 +7,7 @@ import {Button} from 'react-bootstrap'
 import axios from "axios";
 import Form from 'react-bootstrap/Form'
 import UserPostedAndComentedComponent from "./UserPostedAndComentedComponent";
-
+import FollowComponent from "./followUser/FollowComponent";
 
 class MainComponent extends React.Component {
     constructor(props) {
@@ -295,20 +295,25 @@ class MainComponent extends React.Component {
                                               user={this.state.userProfile}/>
                     </th>
                     <th valign={"top"}>
-                        <tr>
-                            <td>
-                                <UserInterfaceComponent user={this.state.userProfile}
-                                                        selectedPhotoId={this.state.selectedPhotoId}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <UserPostedAndComentedComponent user={this.state.userProfile}/>
-                            </td>
-                        </tr>
-
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <UserInterfaceComponent user={this.state.userProfile}
+                                                            selectedPhotoId={this.state.selectedPhotoId}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <UserPostedAndComentedComponent user={this.state.userProfile}/>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </th>
-
+                    <th valign={'top'}>
+                        <FollowComponent user={this.state.userProfile}/>
+                    </th>
                 </tr>
             )
         } else if (this.state.userProfile.type === 'Administrator' && this.state.loginPrompt) {
